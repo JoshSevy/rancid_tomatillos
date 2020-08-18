@@ -1,3 +1,5 @@
+import App from './App';
+
 class Api {
   constructor(endpoint) {
     this.url = 'https://rancid-tomatillos.herokuapp.com/api/v2' + endpoint;
@@ -6,11 +8,10 @@ class Api {
   }
 
   getMovies() {
-    fetch(this.url)
+    return fetch(this.url)
     .then(response => response.json())
     .then(response => this.movieData.movies = response)
     .then(response => {
-      console.log(this.movieData);
       return this.movieData;
     })
     .catch(error => console.log(error))

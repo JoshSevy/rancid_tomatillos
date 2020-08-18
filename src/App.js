@@ -8,13 +8,26 @@ const movies = new Api('/movies');
 class App extends Component {
   constructor() {
     super()
+    this.state = {movies: ""};
+  }
 
-    this.state = false;
+  showMovieTitles() {
+    if (this.state.movies) {
+      return this.state.movies.map(movie => {
+          return movie.title + "\n";
+        })
+    } else {
+      return null;
+    }
   }
 
   componentDidMount() {
-    this.setState({state: true});
+    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
+    .then(response => response.json())
+    .then(movies => this.setState({movies: movies.movies}))
+    .catch(error => console.log(error))
   }
+
 
   render() {
     return (
@@ -22,8 +35,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            {console.log(movies.getMovies())}
-            Yo!{movies.getMovies()}
+            {this.showMovieTitles()}
           </p>
           <a
             className="App-link"
