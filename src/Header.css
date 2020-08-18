@@ -1,0 +1,12 @@
+.header-container {
+  width: 100%;
+  background-color: grey;
+}
+
+.header-title {
+  text-align: center;
+}
+
+.header-login {
+  width: 20px;
+}
