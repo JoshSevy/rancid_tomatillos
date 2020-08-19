@@ -3,10 +3,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-test('practice test', () => {
-  expect(true).toBe(true)
-})
-
 test('renders text on cards', () => {
   const { getByText } = render(<Card />);
   const linkElement = getByText(/Average Rating:/i);

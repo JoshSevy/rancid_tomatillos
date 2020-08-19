@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Header from '../Header/Header';
-import Login from '../Login/Login';
-import Api from '../Api/Api';
-import Card from '../Card/Card';
+import Header from './Header/Header';
+import Login from './Login/Login';
+import Api from './Api/Api';
+import Card from './Card/Card';
 import './App.css';
 
 const movies = new Api('/movies');
@@ -28,7 +28,10 @@ class App extends Component {
     .then(response => response.json())
     .then(movies => this.setState({movies: movies.movies}))
     .catch(error => console.log(error))
+    
   }
+
+  
 
 
   render() {
