@@ -12,18 +12,18 @@ import './App.css';
 class App extends Component {
   constructor() {
     super()
-    this.state = {movies: ''};
+    this.state = {movies: []};
   }
 
-  showMovieCards() {
-    if (this.state.movies) {
-      return this.state.movies.map(movie => {
-          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
-        })
-    } else {
-      return null;
-    }
-  }
+  // showMovieCards() {
+  //   if (this.state.movies) {
+  //     return this.state.movies.map(movie => {
+  //         return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
+  //       })
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   componentDidMount() {
     this.fetchData()
@@ -42,9 +42,7 @@ class App extends Component {
       <main className="App">
         <Header />
         <section className="home-page">
-          <section className="card-section">
-            {this.showMovieCards()}
-          </section>
+          <CardContainer movies={this.state.movies} />
         </section>
         <Login />
         test
