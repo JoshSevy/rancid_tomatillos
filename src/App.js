@@ -12,7 +12,31 @@ import './App.css';
 class App extends Component {
   constructor() {
     super()
-    this.state = {movies: []};
+    this.state = {
+      movies: [],
+      login: false
+    };
+
+    this.showLoginPage = this.showLoginPage.bind(this);
+    this.closeLoginPage = this.closeLoginPage.bind(this);
+  }
+
+  showLoginPage() {
+    this.setState({login: true});
+  }
+
+  closeLoginPage() {
+    this.setState({login: false});
+  }
+
+  showMovieCards() {
+    if (this.state.movies) {
+      return this.state.movies.map(movie => {
+          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
+        })
+    } else {
+      return null;
+    }
   }
 
   
@@ -52,12 +76,12 @@ class App extends Component {
   render() {
     return (
       <main className="App">
-        <Header />
+        <Header showLoginPage={this.showLoginPage}/>
+          {this.state.login &&
+            <Login closeLoginPage={this.closeLoginPage}/>}
         <section className="home-page">
           <CardContainer movies={this.state.movies} />
         </section>
-        <Login />
-        test
       </main>
     );
   }
