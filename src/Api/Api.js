@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 class Api {
   constructor(endpoint) {
@@ -18,4 +18,9 @@ class Api {
   }
 }
 
+
+
 export default Api;
+
+
+
