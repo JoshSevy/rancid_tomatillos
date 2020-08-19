@@ -1,5 +1,14 @@
+.Card-block {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
 .Card {
   width: 250px;
+  grid-column: 2;
+  border: 2px solid lightsteelblue;
+  margin-top: 5%;
+  background-color: white;
 }
 
 img {
