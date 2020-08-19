@@ -13,7 +13,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      movies: '',
+      movies: [],
       login: false
     };
 
@@ -39,8 +39,10 @@ class App extends Component {
     }
   }
 
+  
   componentDidMount() {
     this.fetchData()
+    this.postUserData()
   }
 
   fetchData() {
@@ -48,6 +50,26 @@ class App extends Component {
       .then(response => response.json())
       .then(movies => this.setState({movies: movies.movies}))
       .catch(error => console.log('parsing failed',error));
+  }
+
+  postUserData() {
+    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
+
+    const user = {
+      email: 'marge@turing.io',
+      password: 'password123'
+    }
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(url, options)
+      .then(respones => respones.json())
+      .then(response => console.log(response));
   }
 
 
@@ -58,9 +80,7 @@ class App extends Component {
           {this.state.login &&
             <Login closeLoginPage={this.closeLoginPage}/>}
         <section className="home-page">
-          <section className="card-section">
-            {this.showMovieCards()}
-          </section>
+          <CardContainer movies={this.state.movies} />
         </section>
       </main>
     );
