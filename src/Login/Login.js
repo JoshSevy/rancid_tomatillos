@@ -3,10 +3,11 @@ import './Login.css'
 import React, { Component } from 'react';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
+      isVisible: false,
       email: '',
       password: ''
     };
@@ -21,39 +22,39 @@ class Login extends Component {
 
   loginUser(event) {
     event.preventDefault();
-    
-    //fetch user from api 
+
+    //fetch user from api
     // or send data to App to pull data there
   }
 
   render() {
-    return (
+      return (
       <section className="Login">
-      <h2>Rancid Tomatillos</h2>
-        <form className="login-form">
-          <input 
-            type="text" 
-            placeholder="user email" 
-            value={this.state.email} 
-            name="email" 
-            onChange={this.userLoginInfo}
-          />
-          <input 
-            type="text" 
-            placeholder="user password" 
-            value={this.state.password} 
-            onChange={this.userLoginInfo}
-            name="password" 
-          />
-          <button
-            onClick={this.loginUser}
-          >
-          Submit
-          </button>
-        </form>
-
-      </section>
-    )
+        <button className="close-login-form" onClick={this.props.closeLoginPage}>x</button>
+        <h2>Rancid Tomatillos Login</h2>
+          <form className="login-form">
+            <input
+              type="text"
+              placeholder="user email"
+              value={this.state.email}
+              name="email"
+              onChange={this.userLoginInfo}
+            />
+            <input
+              type="text"
+              placeholder="user password"
+              value={this.state.password}
+              onChange={this.userLoginInfo}
+              name="password"
+            />
+            <button
+              onClick={this.loginUser}
+            >
+            Submit
+            </button>
+          </form>
+        </section>
+      )
   }
 }
 
