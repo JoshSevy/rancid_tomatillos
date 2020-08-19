@@ -1,5 +1,6 @@
 import Card from './Card/Card';
-import CardContainer from './CardContainer/CardContainer'
+import CardContainer from './CardContainer/CardContainer';
+import Movie from './Movie/Movie';
 import Header from './Header/Header';
 import Login from './Login/Login';
 
@@ -16,7 +17,7 @@ class App extends Component {
       movies: [],
       homepage: true,
       login: false,
-      selectedMovie: {}
+      selectedMovie: false
     };
 
     this.showLoginPage = this.showLoginPage.bind(this);
@@ -55,9 +56,9 @@ class App extends Component {
   }
 
   fetchSpecificMovie(id) {
-    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies:' + id)
+    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
       .then(response => response.json())
-      .then(response => this.setState({selectedMovie: response, homepage: false}))
+      .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
       .catch(error => console.log('failed to get specific movie', error))
   }
 
@@ -94,9 +95,7 @@ class App extends Component {
           </section>
         }
         {this.state.selectedMovie &&
-          <section className="movie-page">
-            <Movie />
-          </section>
+            <Movie movie={this.state.selectedMovie}/>
         }
       </main>
     );
