@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Login from './Login';
 import Api from './Api';
+import Card from './Card';
 import './App.css';
 
 const movies = new Api('/movies');
@@ -15,7 +16,7 @@ class App extends Component {
   showMovieTitles() {
     if (this.state.movies) {
       return this.state.movies.map(movie => {
-          return movie.title + "\n";
+          return < Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
         })
     } else {
       return null;
