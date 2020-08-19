@@ -15,7 +15,7 @@ class App extends Component {
     this.state = {movies: ''};
   }
 
-  showMovieTitles() {
+  showMovieCards() {
     if (this.state.movies) {
       return this.state.movies.map(movie => {
           return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
@@ -36,13 +36,13 @@ class App extends Component {
       .catch(error => console.log('parsing failed',error));
   }
 
-  
+
   render() {
     return (
       <main className="App">
         <Header />
           <section>
-            {this.showMovieTitles()}
+            {this.showMovieCards()}
           </section>
         <Login />
         test
