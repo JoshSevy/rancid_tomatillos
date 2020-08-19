@@ -12,21 +12,13 @@ import './App.css';
 class App extends Component {
   constructor() {
     super()
-    this.state = {movies: ''};
+    this.state = {movies: []};
   }
 
-  showMovieCards() {
-    if (this.state.movies) {
-      return this.state.movies.map(movie => {
-          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
-        })
-    } else {
-      return null;
-    }
-  }
-
+  
   componentDidMount() {
     this.fetchData()
+    this.postUserData()
   }
 
   fetchData() {
@@ -36,15 +28,33 @@ class App extends Component {
       .catch(error => console.log('parsing failed',error));
   }
 
+  postUserData() {
+    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
+
+    const user = {
+      email: 'marge@turing.io',
+      password: 'password123'
+    }
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(url, options)
+      .then(respones => respones.json())
+      .then(response => console.log(response));
+  }
+
 
   render() {
     return (
       <main className="App">
         <Header />
         <section className="home-page">
-          <section className="card-section">
-            {this.showMovieCards()}
-          </section>
+          <CardContainer movies={this.state.movies} />
         </section>
         <Login />
         test

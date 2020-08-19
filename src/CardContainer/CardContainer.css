@@ -1,0 +1,14 @@
+
+
+.CardContainer {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  background-color: #00B2CA;
+}
+
+.home-page {
+  display: grid;
+  grid-template-columns: 5% 1fr 5%;
+  background-color: darkred;
+}

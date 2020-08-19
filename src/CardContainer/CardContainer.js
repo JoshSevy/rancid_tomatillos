@@ -1,4 +1,5 @@
-import Card from '../Card/Card'
+import Card from '../Card/Card';
+import './CardContainer.css';
 
 import React from 'react';
 
