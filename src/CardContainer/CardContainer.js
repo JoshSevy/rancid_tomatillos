@@ -10,9 +10,11 @@ const CardContainer = ({movies}) => {
       {
         movies.map(movie => {
         return <Card
+          key={movie.id}
           title={movie.title}
           poster={movie['poster_path']}
           avgRating={movie['average_rating']}
+          onClick={console.log('success')}
         />    
         })
       }

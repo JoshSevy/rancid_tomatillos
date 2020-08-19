@@ -68,7 +68,7 @@ class App extends Component {
       }
     }
     fetch(url, options)
-      .then(respones => respones.json())
+      .then(response => response.json())
       .then(response => console.log(response));
   }
 
