@@ -1,5 +1,6 @@
 import Card from './Card/Card';
-import CardContainer from './CardContainer/CardContainer'
+import CardContainer from './CardContainer/CardContainer';
+import Movie from './Movie/Movie';
 import Header from './Header/Header';
 import Login from './Login/Login';
 
@@ -14,11 +15,14 @@ class App extends Component {
     super()
     this.state = {
       movies: [],
-      login: false
+      homepage: true,
+      login: false,
+      selectedMovie: false
     };
 
     this.showLoginPage = this.showLoginPage.bind(this);
     this.closeLoginPage = this.closeLoginPage.bind(this);
+    this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
   }
 
   showLoginPage() {
@@ -32,14 +36,21 @@ class App extends Component {
   showMovieCards() {
     if (this.state.movies) {
       return this.state.movies.map(movie => {
-          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
+          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} key={movie.id} onClick={this.renderSpecificMovie}/>;
         })
     } else {
       return null;
     }
   }
 
-  
+  renderSpecificMovie(event) {
+    if(event.target.closest(".Card")) {
+      const id = event.target.closest('.Card').id;
+      console.log(id);
+      this.fetchSpecificMovie(id);
+    }
+  };
+
   componentDidMount() {
     this.fetchData()
     this.postUserData()
@@ -50,6 +61,13 @@ class App extends Component {
       .then(response => response.json())
       .then(movies => this.setState({movies: movies.movies}))
       .catch(error => console.log('parsing failed',error));
+  }
+
+  fetchSpecificMovie(id) {
+    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
+      .then(response => response.json())
+      .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
+      .catch(error => console.log('failed to get specific movie', error))
   }
 
   postUserData() {
@@ -68,7 +86,7 @@ class App extends Component {
       }
     }
     fetch(url, options)
-      .then(respones => respones.json())
+      .then(response => response.json())
       .then(response => console.log(response));
   }
 
@@ -77,11 +95,16 @@ class App extends Component {
     return (
       <main className="App">
         <Header showLoginPage={this.showLoginPage}/>
-          {this.state.login &&
-            <Login closeLoginPage={this.closeLoginPage}/>}
-        <section className="home-page">
-          <CardContainer movies={this.state.movies} />
-        </section>
+        {this.state.login &&
+          <Login closeLoginPage={this.closeLoginPage}/>}
+        {this.state.homepage &&
+          <section className="home-page">
+            <CardContainer movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
+          </section>
+        }
+        {this.state.selectedMovie &&
+            <Movie movie={this.state.selectedMovie}/>
+        }
       </main>
     );
   }
