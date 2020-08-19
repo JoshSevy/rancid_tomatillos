@@ -22,6 +22,7 @@ class App extends Component {
 
     this.showLoginPage = this.showLoginPage.bind(this);
     this.closeLoginPage = this.closeLoginPage.bind(this);
+    this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
   }
 
   showLoginPage() {
@@ -35,13 +36,20 @@ class App extends Component {
   showMovieCards() {
     if (this.state.movies) {
       return this.state.movies.map(movie => {
-          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
+          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} key={movie.id} onClick={this.renderSpecificMovie}/>;
         })
     } else {
       return null;
     }
   }
 
+  renderSpecificMovie(event) {
+    if(event.target.closest(".Card")) {
+      const id = event.target.closest('.Card').id;
+      console.log(id);
+      this.fetchSpecificMovie(id);
+    }
+  };
 
   componentDidMount() {
     this.fetchData()
@@ -91,7 +99,7 @@ class App extends Component {
           <Login closeLoginPage={this.closeLoginPage}/>}
         {this.state.homepage &&
           <section className="home-page">
-            <CardContainer movies={this.state.movies} />
+            <CardContainer movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
           </section>
         }
         {this.state.selectedMovie &&
