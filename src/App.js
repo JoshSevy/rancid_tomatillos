@@ -41,9 +41,11 @@ class App extends Component {
     return (
       <main className="App">
         <Header />
-          <section>
+        <section className="home-page">
+          <section className="card-section">
             {this.showMovieCards()}
           </section>
+        </section>
         <Login />
         test
       </main>
