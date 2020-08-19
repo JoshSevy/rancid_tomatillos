@@ -14,7 +14,8 @@ class App extends Component {
     super()
     this.state = {
       movies: [],
-      login: false
+      login: false,
+      selectedMovie: {}
     };
 
     this.showLoginPage = this.showLoginPage.bind(this);
@@ -39,7 +40,7 @@ class App extends Component {
     }
   }
 
-  
+
   componentDidMount() {
     this.fetchData()
     this.postUserData()
@@ -50,6 +51,13 @@ class App extends Component {
       .then(response => response.json())
       .then(movies => this.setState({movies: movies.movies}))
       .catch(error => console.log('parsing failed',error));
+  }
+
+  fetchSpecificMovie(id) {
+    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies:' + id)
+      .then(response => response.json())
+      .then(response => this.setState({selectedMovie: response}))
+      .catch(error => console.log('failed to get specific movie', error))
   }
 
   postUserData() {
@@ -68,7 +76,7 @@ class App extends Component {
       }
     }
     fetch(url, options)
-      .then(respones => respones.json())
+      .then(response => response.json())
       .then(response => console.log(response));
   }
 
