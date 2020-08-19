@@ -1,0 +1,18 @@
+.Login {
+  align-items: center;
+  display: flex;
+  background-color: lightgrey;
+  flex-flow: column;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;  
+}
+
+.login-form {
+  width: 50vw;
+  padding: 2em;
+}
+
+.login-form > input {
+  width: 95%;
+}

@@ -1,4 +1,4 @@
-import App from './App';
+
 
 class Api {
   constructor(endpoint) {
