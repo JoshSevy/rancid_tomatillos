@@ -14,6 +14,7 @@ class App extends Component {
     super()
     this.state = {
       movies: [],
+      homepage: true,
       login: false,
       selectedMovie: {}
     };
@@ -56,7 +57,7 @@ class App extends Component {
   fetchSpecificMovie(id) {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies:' + id)
       .then(response => response.json())
-      .then(response => this.setState({selectedMovie: response}))
+      .then(response => this.setState({selectedMovie: response, homepage: false}))
       .catch(error => console.log('failed to get specific movie', error))
   }
 
@@ -85,11 +86,18 @@ class App extends Component {
     return (
       <main className="App">
         <Header showLoginPage={this.showLoginPage}/>
-          {this.state.login &&
-            <Login closeLoginPage={this.closeLoginPage}/>}
-        <section className="home-page">
-          <CardContainer movies={this.state.movies} />
-        </section>
+        {this.state.login &&
+          <Login closeLoginPage={this.closeLoginPage}/>}
+        {this.state.homepage &&
+          <section className="home-page">
+            <CardContainer movies={this.state.movies} />
+          </section>
+        }
+        {this.state.selectedMovie &&
+          <section className="movie-page">
+            <Movie />
+          </section>
+        }
       </main>
     );
   }
