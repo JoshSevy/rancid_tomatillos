@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Header from './Header';
-import Login from './Login';
-import Api from './Api';
-import Card from './Card';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import Api from '../Api/Api';
+import Card from '../Card/Card';
 import './App.css';
 
 const movies = new Api('/movies');
@@ -38,6 +38,7 @@ class App extends Component {
         <header>
           <p>
             {this.showMovieTitles()}
+            test
           </p>
         </header>
         <Login />
