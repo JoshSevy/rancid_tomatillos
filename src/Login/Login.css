@@ -1,11 +1,16 @@
 .Login {
+  position: fixed;
+  margin-left: 35%;
+  margin-right: 35%;
   align-items: center;
   display: flex;
-  background-color: lightgrey;
+  color: white;
+  background-color: rgba(50, 0, 50, 0.99);
   flex-flow: column;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;  
+  width: 30vw;
+  height: 30vh;
+  z-index: 4;
 }
 
 .login-form {
@@ -14,5 +19,5 @@
 }
 
 .login-form > input {
-  width: 95%;
+  width: 25%;
 }
