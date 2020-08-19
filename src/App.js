@@ -1,22 +1,24 @@
-import React, { Component } from 'react';
+import Card from './Card/Card';
+import CardContainer from './CardContainer/CardContainer'
 import Header from './Header/Header';
 import Login from './Login/Login';
-import Api from './Api/Api';
-import Card from './Card/Card';
+
+import React, { Component } from 'react';
+
 import './App.css';
 
-const movies = new Api('/movies');
+// const movies = new Api('/movies');
 
 class App extends Component {
   constructor() {
     super()
-    this.state = {movies: ""};
+    this.state = {movies: ''};
   }
 
   showMovieTitles() {
     if (this.state.movies) {
       return this.state.movies.map(movie => {
-          return < Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
+          return <Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
         })
     } else {
       return null;
@@ -24,32 +26,30 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.fetchData()
+  }
+
+  fetchData() {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
-    .then(response => response.json())
-    .then(movies => this.setState({movies: movies.movies}))
-    .catch(error => console.log(error))
-    
+      .then(response => response.json())
+      .then(movies => this.setState({movies: movies.movies}))
+      .catch(error => console.log('parsing failed',error));
   }
 
   
-
-
   render() {
     return (
-      <div className="App">
-      <Header />
-        <header>
-          <p>
+      <main className="App">
+        <Header />
+          <section>
             {this.showMovieTitles()}
-            test
-          </p>
-        </header>
+          </section>
         <Login />
-      </div>
+        test
+      </main>
     );
   }
 }
-
 
 
 export default App;
