@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Api from './Api';
+import Card from './Card';
 import logo from './logo.svg';
 import './App.css';
 
@@ -14,7 +15,7 @@ class App extends Component {
   showMovieTitles() {
     if (this.state.movies) {
       return this.state.movies.map(movie => {
-          return movie.title + "\n";
+          return < Card title={movie.title} poster={movie['poster_path']} avgRating={movie['average_rating']} />;
         })
     } else {
       return null;
