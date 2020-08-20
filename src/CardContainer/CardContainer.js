@@ -9,7 +9,6 @@ const CardContainer = ({movies, renderSpecificMovie}) => {
       {
         movies.map(movie => {
         return <Card
-          key={movie.id}
           title={movie.title}
           poster={movie['poster_path']}
           avgRating={movie['average_rating']}

@@ -20,6 +20,7 @@ class App extends Component {
       user: null
     };
 
+    this.closeMovieShowcasePage= this.closeMovieShowcasePage.bind(this);
     this.showLoginPage = this.showLoginPage.bind(this);
     this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
@@ -32,6 +33,13 @@ class App extends Component {
 
   closeLoginPage() {
     this.setState({login: false});
+  }
+
+  closeMovieShowcasePage() {
+    this.setState({ 
+                    selectedMovie: false,
+                    homepage: true
+                   });
   }
 
   renderSpecificMovie(event) {
@@ -82,7 +90,20 @@ class App extends Component {
   render() {
     return (
       <main className="App">
-        <Header showLoginPage={this.showLoginPage}/>
+        {this.state.user === null && 
+        <Header 
+          title="Rancid Tomatillos"
+          buttonName="LogIn"
+          buttonLog={this.showLoginPage}
+        />
+        }
+        {this.state.user && 
+        <Header
+          title={`Welcome ${this.state.user.name}`}
+          buttonName="LogOut"
+          buttonLog={this.setState({user: null})}
+        />
+        }
         {this.state.login &&
           <Login 
             fetchUserData={this.fetchUserData} closeLoginPage={this.closeLoginPage}/>}
@@ -92,12 +113,14 @@ class App extends Component {
           </section>
         }
         {this.state.selectedMovie &&
-            <Movie movie={this.state.selectedMovie}/>
+            <Movie 
+              movie={this.state.selectedMovie}
+              closeMovieShowcasePage={this.closeMovieShowcasePage}
+            />
         }
       </main>
     );
   }
 }
-
 
 export default App;

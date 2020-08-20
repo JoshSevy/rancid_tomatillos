@@ -11,14 +11,21 @@ function Movie(props) {
     <section className="movie-page" style={style}>
       <article className="movie-description">
         <h3>{props.movie.title}</h3>
-        <p>Description: {props.movie.overview}</p>
+        <p>
+          Description: {props.movie.overview}
+        </p>
         <p>
           Genres: {props.movie.genres} <br />
           Length: {props.movie.runtime} Minutes <br />
           Average Rating: {props.movie["average_rating"]} Tomatillos
         </p>
       </article>
-      <button className="back-button">Back</button>
+      <button 
+      className="back-button"
+      onClick={props.closeMovieShowcasePage}
+      >
+      Back
+      </button>
     </section>
   )
 }
