@@ -26,6 +26,7 @@ class App extends Component {
     this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
 
   showLoginPage() {
@@ -34,6 +35,10 @@ class App extends Component {
 
   closeLoginPage() {
     this.setState({login: false});
+  }
+
+  logOut() {
+    this.setState({user: null});
   }
 
   renderSpecificMovie(event) {
