@@ -2,6 +2,7 @@ import CardContainer from './CardContainer/CardContainer';
 import Movie from './Movie/Movie';
 import Header from './Header/Header';
 import Login from './Login/Login';
+import ErrorPage from './ErrorPage/ErrorPage';
 
 import React, { Component } from 'react';
 
@@ -15,6 +16,7 @@ class App extends Component {
     this.state = {
       movies: [],
       homepage: true,
+      error: false,
       login: false,
       selectedMovie: false,
       user: null
@@ -37,7 +39,6 @@ class App extends Component {
   renderSpecificMovie(event) {
     if(event.target.closest(".Card")) {
       const id = event.target.closest('.Card').id;
-      console.log(id);
       this.fetchSpecificMovie(id);
     }
   };
@@ -48,7 +49,6 @@ class App extends Component {
 
   fetchUserData(user) {
     const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-
     const options = {
       method: 'POST',
       body: JSON.stringify(user),
@@ -69,14 +69,19 @@ class App extends Component {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
       .then(response => response.json())
       .then(movies => this.setState({movies: movies.movies}))
-      .catch(error => console.log('parsing failed',error));
+      .catch(error => {
+        console.log(error);
+        this.setState({homepage: false, error: true})
+      });
   }
 
   fetchSpecificMovie(id) {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
       .then(response => response.json())
       .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
-      .catch(error => console.log('failed to get specific movie', error))
+      .catch(error => {
+        this.setState({homepage: false, selectedMovie: false, error: true})
+      })
   }
 
   render() {
@@ -84,7 +89,7 @@ class App extends Component {
       <main className="App">
         <Header showLoginPage={this.showLoginPage}/>
         {this.state.login &&
-          <Login 
+          <Login
             fetchUserData={this.fetchUserData} closeLoginPage={this.closeLoginPage}/>}
         {this.state.homepage &&
           <section className="home-page">
@@ -93,6 +98,9 @@ class App extends Component {
         }
         {this.state.selectedMovie &&
             <Movie movie={this.state.selectedMovie}/>
+        }
+        {this.state.error &&
+          <ErrorPage errorCode={this.state.error}/>
         }
       </main>
     );
