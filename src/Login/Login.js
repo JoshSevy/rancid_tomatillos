@@ -16,9 +16,6 @@ class Login extends Component {
     this.loginUser = this.loginUser.bind(this)
   }
 
-  
-
-
   userLoginInfo = (event) => {
     const formData = event.target.name;
     const formValue = event.target.value;
