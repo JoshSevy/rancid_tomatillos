@@ -1,0 +1,9 @@
+.error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 95vh;
+  background-color: #00B2CA;
+  font-size: 40px;
+  font-weight: bold;
+}
