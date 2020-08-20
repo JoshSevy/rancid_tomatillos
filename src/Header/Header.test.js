@@ -9,3 +9,9 @@ test('renders button on header', () => {
   const linkElement = getByText(/Rancid Tomatillos/i);
   expect(linkElement).toBeInTheDocument();
 });
+
+test('button click', () => {
+  const { getByTestId } = render(<Header />);
+  const linkElement = getByTestId();
+  expect(linkElement).toBeInTheDocument();
+})

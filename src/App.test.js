@@ -1,7 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
+import { fetchUserData } from './App';
 import '@testing-library/jest-dom';
+
 
 test('renders header text', () => {
   const { getByText } = render(<App />);
@@ -15,8 +17,7 @@ test('renders login button', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-
-const mockFetch = (data) => {
+const mockFetch = async (data) => {
   return jest.fn().mockImplementation(() =>
     Promise.resolve({
       ok: true,
@@ -25,33 +26,15 @@ const mockFetch = (data) => {
   );
 }
 
-test('fetchUserData', () => {
+
+test('componentDidMount', () => {
   fetch = mockFetch(test); // or window.fetch
 
   const person = fetchUserData();
   expect(person).toEqual(person);
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-});
+  expect await wait(fetchUserData).toHaveBeenCalledTimes(1)
+})
 
-function fetchUserData() {
-  const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-
-  const user = {
-    email: 'marge@turing.io',
-    password: 'password123'
-  }
-
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(user),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-  fetch(url, options)
-    .then(response => response.json())
-    .then(response => console.log(response));
-}
 
 
