@@ -87,7 +87,10 @@ class App extends Component {
   render() {
     return (
       <main className="App">
+      {this.state.user ?
+        <Header logOut={this.logOut} user={this.state.user}/> :
         <Header showLoginPage={this.showLoginPage}/>
+      }
         {this.state.login &&
           <Login
             fetchUserData={this.fetchUserData} closeLoginPage={this.closeLoginPage}/>}
