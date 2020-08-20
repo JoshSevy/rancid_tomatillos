@@ -1,9 +1,32 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
+import '@testing-library/jest-dom';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/test/i);
-  expect(linkElement).toBeInTheDocument();
-});
+
+describe('App Component', () => {
+  it('should render App correctly', () => {
+    
+    render(<App />)
+    
+    const headerText = screen.getByText(/Rancid Tomatillos/i);
+    const headerLoginText = screen.getByText(/login/i)
+    
+    expect(headerText).toBeInTheDocument();
+    expect(headerLoginText).toBeInTheDocument();
+  })
+})
+
+
+// const mockFetch = async (data) => {
+//   return jest.fn().mockImplementation(() =>
+//     Promise.resolve({
+//       ok: true,
+//       json: () => data
+//     })
+//   );
+// }
+
+
+
+

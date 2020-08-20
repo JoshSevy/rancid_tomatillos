@@ -9,7 +9,6 @@ function Movie(props) {
 
   return (
     <section className="movie-page" style={style}>
-      <button className="back-button">Back</button>
       <article className="movie-description">
         <h3>{props.movie.title}</h3>
         <p>Description: {props.movie.overview}</p>
@@ -19,6 +18,7 @@ function Movie(props) {
           Average Rating: {props.movie["average_rating"]} Tomatillos
         </p>
       </article>
+      <button className="back-button">Back</button>
     </section>
   )
 }

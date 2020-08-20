@@ -8,23 +8,29 @@ class Login extends Component {
 
     this.state = {
       isVisible: false,
+      error: '',
       email: '',
-      password: ''
+      password: '',
+      user: null
     };
+    this.loginUser = this.loginUser.bind(this)
   }
 
   userLoginInfo = (event) => {
     const formData = event.target.name;
     const formValue = event.target.value;
     this.setState({[formData]: formValue});
-    console.log(this.state)
   }
 
   loginUser(event) {
     event.preventDefault();
+    const user = {
+        email: this.state.email, 
+        password: this.state.password
+      };
 
-    //fetch user from api
-    // or send data to App to pull data there
+    this.props.fetchUserData(user)
+    this.props.closeLoginPage();
   }
 
   render() {
