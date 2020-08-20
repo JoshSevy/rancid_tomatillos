@@ -2,6 +2,7 @@ import CardContainer from './CardContainer/CardContainer';
 import Movie from './Movie/Movie';
 import Header from './Header/Header';
 import Login from './Login/Login';
+import ErrorPage from './ErrorPage/ErrorPage';
 
 import React, { Component } from 'react';
 
@@ -15,6 +16,7 @@ class App extends Component {
     this.state = {
       movies: [],
       homepage: true,
+      error: false,
       login: false,
       selectedMovie: false,
       user: null
@@ -25,6 +27,7 @@ class App extends Component {
     this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
 
   showLoginPage() {
@@ -35,17 +38,13 @@ class App extends Component {
     this.setState({login: false});
   }
 
-  closeMovieShowcasePage() {
-    this.setState({ 
-                    selectedMovie: false,
-                    homepage: true
-                   });
+  logOut() {
+    this.setState({user: null});
   }
 
   renderSpecificMovie(event) {
     if(event.target.closest(".Card")) {
       const id = event.target.closest('.Card').id;
-      console.log(id);
       this.fetchSpecificMovie(id);
     }
   };
@@ -56,7 +55,6 @@ class App extends Component {
 
   fetchUserData(user) {
     const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-
     const options = {
       method: 'POST',
       body: JSON.stringify(user),
@@ -77,35 +75,30 @@ class App extends Component {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
       .then(response => response.json())
       .then(movies => this.setState({movies: movies.movies}))
-      .catch(error => console.log('parsing failed',error));
+      .catch(error => {
+        console.log(error);
+        this.setState({homepage: false, error: true})
+      });
   }
 
   fetchSpecificMovie(id) {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
       .then(response => response.json())
       .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
-      .catch(error => console.log('failed to get specific movie', error))
+      .catch(error => {
+        this.setState({homepage: false, selectedMovie: false, error: true})
+      })
   }
 
   render() {
     return (
       <main className="App">
-        {this.state.user === null && 
-        <Header 
-          title="Rancid Tomatillos"
-          buttonName="LogIn"
-          buttonLog={this.showLoginPage}
-        />
-        }
-        {this.state.user && 
-        <Header
-          title={`Welcome ${this.state.user.name}`}
-          buttonName="LogOut"
-          buttonLog={this.setState({user: null})}
-        />
-        }
+      {this.state.user ?
+        <Header logOut={this.logOut} user={this.state.user}/> :
+        <Header showLoginPage={this.showLoginPage}/>
+      }
         {this.state.login &&
-          <Login 
+          <Login
             fetchUserData={this.fetchUserData} closeLoginPage={this.closeLoginPage}/>}
         {this.state.homepage &&
           <section className="home-page">
@@ -117,6 +110,9 @@ class App extends Component {
               movie={this.state.selectedMovie}
               closeMovieShowcasePage={this.closeMovieShowcasePage}
             />
+        }
+        {this.state.error &&
+          <ErrorPage errorCode={this.state.error}/>
         }
       </main>
     );

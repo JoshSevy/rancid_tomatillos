@@ -25,7 +25,7 @@ class Login extends Component {
   loginUser(event) {
     event.preventDefault();
     const user = {
-        email: this.state.email, 
+        email: this.state.email,
         password: this.state.password
       };
 
@@ -47,7 +47,7 @@ class Login extends Component {
               onChange={this.userLoginInfo}
             />
             <input
-              type="text"
+              type="password"
               placeholder="user password"
               value={this.state.password}
               onChange={this.userLoginInfo}
