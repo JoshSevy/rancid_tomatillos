@@ -8,8 +8,7 @@ function Card(props) {
   return (
     <div className="Card-block">
       <article 
-        className="Card" 
-        id={props.id}>
+        className="Card">
         <img src={props.poster} alt="Movie Poster" />
         <h3>{props.title}</h3>
         <p>Average Rating: {props.avgRating}</p>

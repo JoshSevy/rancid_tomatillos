@@ -1,4 +1,3 @@
-import Card from './Card/Card';
 import CardContainer from './CardContainer/CardContainer';
 import Movie from './Movie/Movie';
 import Header from './Header/Header';
@@ -50,11 +49,6 @@ class App extends Component {
   fetchUserData(user) {
     const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
 
-    // const user = {
-    //   email: 'marge@turing.io',
-    //   password: 'password123'
-    // }
-
     const options = {
       method: 'POST',
       body: JSON.stringify(user),
@@ -84,8 +78,6 @@ class App extends Component {
       .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
       .catch(error => console.log('failed to get specific movie', error))
   }
-
-  
 
   render() {
     return (

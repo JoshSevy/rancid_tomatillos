@@ -1,22 +1,21 @@
 import Login from './Login';
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-test('renders heading on Login Page', () => {
-  const { getByText } = render(<Login />);
-  const linkElement = getByText(/Rancid Tomatillos/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe('Login Component', () => {
+  it('should render App correctly', () => {
 
-test('renders password input field', () => {
-  const { getByPlaceholderText } = render(<Login />);
-  const linkElement = getByPlaceholderText(/user password/i);
-  expect(linkElement).toBeInTheDocument();
-});
+    render(<Login />)
 
-test('renders email input field', () => {
-  const { getByPlaceholderText } = render(<Login />);
-  const linkElement = getByPlaceholderText(/user email/i);
-  expect(linkElement).toBeInTheDocument();
-});
+    const headerText = screen.getByText(/Rancid Tomatillos/i);
+    const headerLoginText = screen.getByText(/login/i)
+    const email = screen.getByPlaceholderText(/user email/i);
+    const password = screen.getByPlaceholderText(/user password/i)
+
+    expect(headerText).toBeInTheDocument();
+    expect(headerLoginText).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+    expect(password).toBeInTheDocument();
+  })
+})
