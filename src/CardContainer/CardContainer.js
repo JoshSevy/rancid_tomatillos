@@ -3,19 +3,21 @@ import './CardContainer.css';
 
 import React from 'react';
 
-const CardContainer = ({movies}) => {
-  console.log(movies)
+const CardContainer = (props) => {
+  console.log(props);
+  console.log(props.movies)
   return (
-    <section className="CardContainer">
+    <section className="CardContainer" onClick={props.renderSpecificMovie}>
       {
-        movies.map(movie => {
+        props.movies.map(movie => {
         return <Card
           key={movie.id}
           title={movie.title}
           poster={movie['poster_path']}
           avgRating={movie['average_rating']}
-          onClick={console.log('success')}
-        />    
+          key={movie.id}
+          id={movie.id}
+        />
         })
       }
     </section>
