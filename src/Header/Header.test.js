@@ -3,9 +3,6 @@ import React from 'react';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-test('practice test', () => {
-  expect(true).toBe(true)
-})
 
 test('renders button on header', () => {
   const { getByText } = render(<Header />);

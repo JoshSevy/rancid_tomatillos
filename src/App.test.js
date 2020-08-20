@@ -1,16 +1,22 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
-import jest from '@testing-library/jest-dom';
+import '@testing-library/jest-dom';
 
-test('renders learn react link', () => {
+test('renders header text', () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/test/i);
+  const linkElement = getByText(/Rancid Tomatillos/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+test('renders login button', () => {
+  const { getByText } = render(<App />);
+  const linkElement = getByText(/login/i);
   expect(linkElement).toBeInTheDocument();
 });
 
 
-function mockFetch(data) {
+const mockFetch = (data) => {
   return jest.fn().mockImplementation(() =>
     Promise.resolve({
       ok: true,
@@ -19,21 +25,33 @@ function mockFetch(data) {
   );
 }
 
-test('fetchPerson()', async () => {
-  fetch = mockFetch(someJson); // or window.fetch
+test('fetchUserData', () => {
+  fetch = mockFetch(test); // or window.fetch
 
-  const person = await fetchPerson('whatever id');
-  expect(person).toEqual(someJson);
+  const person = fetchUserData();
+  expect(person).toEqual(person);
 
-  // Make sure fetch has been called exactly once
   expect(fetch).toHaveBeenCalledTimes(1);
 });
-// when testing this simple function:
 
-  function fetchPerson(id) {
-  const response = await fetch(`${BASE_URL}/people/${id}`);
-  if (!response.ok) throw new Error(response.statusText);
-  const data = await response.json();
-  // Some operations on data if needed...
-  return person;
+function fetchUserData() {
+  const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
+
+  const user = {
+    email: 'marge@turing.io',
+    password: 'password123'
+  }
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(user),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  fetch(url, options)
+    .then(response => response.json())
+    .then(response => console.log(response));
 }
+
+

@@ -3,13 +3,11 @@ import './CardContainer.css';
 
 import React from 'react';
 
-const CardContainer = (props) => {
-  console.log(props);
-  console.log(props.movies)
+const CardContainer = ({movies, renderSpecificMovie}) => {
   return (
-    <section className="CardContainer" onClick={props.renderSpecificMovie}>
+    <section className="CardContainer" onClick={renderSpecificMovie}>
       {
-        props.movies.map(movie => {
+        movies.map(movie => {
         return <Card
           key={movie.id}
           title={movie.title}

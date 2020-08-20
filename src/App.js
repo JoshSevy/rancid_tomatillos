@@ -53,7 +53,7 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchData()
-    this.postUserData()
+    this.fetchUserData()
   }
 
   fetchData() {
@@ -70,7 +70,7 @@ class App extends Component {
       .catch(error => console.log('failed to get specific movie', error))
   }
 
-  postUserData() {
+  fetchUserData() {
     const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
 
     const user = {
