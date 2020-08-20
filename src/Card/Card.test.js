@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 
 describe('Card Component', () => {
+  
   it('should have correct content when rendered', () => {
     render(
       <Card 
