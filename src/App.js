@@ -8,8 +8,6 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-// const movies = new Api('/movies');
-
 class App extends Component {
   constructor() {
     super()
@@ -22,7 +20,7 @@ class App extends Component {
       user: null
     };
 
-    this.closeMovieShowcasePage= this.closeMovieShowcasePage.bind(this);
+    this.closeMovieDetail= this.closeMovieDetail.bind(this);
     this.showLoginPage = this.showLoginPage.bind(this);
     this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
@@ -36,6 +34,15 @@ class App extends Component {
 
   closeLoginPage() {
     this.setState({login: false});
+  }
+
+  closeMovieDetail() {
+    this.setState(
+      {
+      homepage: true,
+      selectedMovie: false
+      }
+    )
   }
 
   logOut() {
@@ -94,21 +101,30 @@ class App extends Component {
     return (
       <main className="App">
       {this.state.user ?
-        <Header logOut={this.logOut} user={this.state.user}/> :
-        <Header showLoginPage={this.showLoginPage}/>
+        <Header 
+          buttonDisplay={this.logOut} 
+          user={this.state.user}
+          buttonText='Log Out'
+          /> :
+        <Header 
+          buttonDisplay={this.showLoginPage}
+          buttonText='Log In'
+          />
       }
         {this.state.login &&
           <Login
-            fetchUserData={this.fetchUserData} closeLoginPage={this.closeLoginPage}/>}
+            fetchUserData={this.fetchUserData} 
+            closeLoginPage={this.closeLoginPage}/>}
         {this.state.homepage &&
           <section className="home-page">
-            <CardContainer movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
+            <CardContainer 
+              movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
           </section>
         }
         {this.state.selectedMovie &&
             <Movie 
               movie={this.state.selectedMovie}
-              closeMovieShowcasePage={this.closeMovieShowcasePage}
+              closeMovieDetails={this.closeMovieDetails}
             />
         }
         {this.state.error &&

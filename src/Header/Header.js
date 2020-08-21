@@ -7,14 +7,11 @@ const Header = (props) => {
     <section className="header-container">
     <h2 className="header-title">{props.title}</h2>
       <article className="header-login">
-        {!props.user ?
-          <button className="login-button" onClick={props.showLoginPage}>LogIn</button>
-         :
-           <section>
-            <h4>Hello, {props.user.name}!</h4>
-            <button className="logout-button" onClick={props.logOut}>LogOut</button>
-          </section>
-        }
+        <button 
+          className="login-button" 
+          onClick={props.buttonDisplay}>
+          {props.buttonText}
+        </button>
       </article>
     </section>
   )
