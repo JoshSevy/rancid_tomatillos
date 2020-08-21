@@ -1,9 +1,16 @@
 .Login {
+ color: #ffffff;
  position: absolute;
- top: 40%;
- left: 38%;
- background-color: aqua;
+ top: 0;
+ left: 0;
+ bottom: 0;
+ right: 0;
+ margin: auto;
+ background: #F3904F;  /* fallback for old browsers */
+ background: -webkit-linear-gradient(to top, #3B4371, #F3904F);  /* Chrome 10-25, Safari 5.1-6 */
+ background: linear-gradient(to top, #3B4371, #F3904F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
  height: 30%;
+ width: 35%;
  padding: 3%;
  box-shadow: 5px 10px 3px 0px black;
 }

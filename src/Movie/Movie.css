@@ -10,31 +10,27 @@
 }
 
 .movie-description {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   height: 95%;
 }
 
 .movie-description > h3{
-  font-size: 4rem;
-  margin-bottom: 14vh;
+  font-size: 3rem;
+  margin-bottom: 8vh;
 }
 
-.movie-description > p{
-  font-size: 1rem;
-  padding: 3rem;
+.movie-description > p {
+  font-size: 1.2rem;
+  padding: 2rem;
   line-height: 1.2;
   letter-spacing: .8px;
 }
 
-
-
-
-
 .back-button {
   position: absolute;
-  bottom: 50px;
+  top: 95px;
   right: 45px;
-  width: 65px;
+  width: 20px;
   height: 20px;
-
 }
+

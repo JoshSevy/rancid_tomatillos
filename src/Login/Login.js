@@ -36,7 +36,10 @@ class Login extends Component {
   render() {
       return (
       <section className="Login">
-        <button className="close-login-form" onClick={this.props.closeLoginPage}>x</button>
+          <button 
+            className="close-login-form" onClick={this.props.closeLoginPage}>
+            <span>&#215;</span>
+          </button>
         <h2>Rancid Tomatillos Login</h2>
           <form className="login-form">
             <input

@@ -20,7 +20,7 @@ class App extends Component {
       user: null
     };
 
-    this.closeMovieDetail= this.closeMovieDetail.bind(this);
+    this.closeMovieDetail = this.closeMovieDetail.bind(this);
     this.showLoginPage = this.showLoginPage.bind(this);
     this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
@@ -105,10 +105,12 @@ class App extends Component {
           buttonDisplay={this.logOut} 
           user={this.state.user}
           buttonText='Log Out'
+          title={`Welcome ${this.state.user.name}`}
           /> :
         <Header 
           buttonDisplay={this.showLoginPage}
           buttonText='Log In'
+          title='Welcome to Rancid Tomatillos'
           />
       }
         {this.state.login &&
@@ -124,7 +126,7 @@ class App extends Component {
         {this.state.selectedMovie &&
             <Movie 
               movie={this.state.selectedMovie}
-              closeMovieDetails={this.closeMovieDetails}
+              closeMovieDetail={this.closeMovieDetail}
             />
         }
         {this.state.error &&

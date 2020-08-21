@@ -1,12 +1,16 @@
 .header-container {
   width: 100%;
   height: 8vh;
-  background-color: grey;
+  border-bottom: 2px solid #000000;
+  background-color: #273550;
 }
 
 .header-title {
-  display: block;
+  display: inline-block;
+  margin-top: 15px;
   text-align: center;
+  color: #ffffff;
+  text-shadow: 5px 5px 6px black;
 }
 
 .login-button { 
