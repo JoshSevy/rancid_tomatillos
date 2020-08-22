@@ -5,6 +5,7 @@ import Login from './Login/Login';
 import ErrorPage from './ErrorPage/ErrorPage';
 
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 
@@ -20,30 +21,11 @@ class App extends Component {
       user: null
     };
 
-    this.closeMovieDetail = this.closeMovieDetail.bind(this);
-    this.showLoginPage = this.showLoginPage.bind(this);
-    this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
-  showLoginPage() {
-    this.setState({login: true});
-  }
-
-  closeLoginPage() {
-    this.setState({login: false});
-  }
-
-  closeMovieDetail() {
-    this.setState(
-      {
-      homepage: true,
-      selectedMovie: false
-      }
-    )
-  }
 
   logOut() {
     this.setState({user: null});
@@ -121,40 +103,48 @@ class App extends Component {
 
   render() {
     return (
-      <main className="App">
-      {this.state.user ?
-        <Header 
-          buttonDisplay={this.logOut} 
-          user={this.state.user}
-          buttonText='Log Out'
-          title={`Welcome ${this.state.user.name}`}
-          /> :
-        <Header 
-          buttonDisplay={this.showLoginPage}
-          buttonText='Log In'
-          title='Welcome to Rancid Tomatillos'
-          />
-      }
-        {this.state.login &&
-          <Login
-            fetchUserData={this.fetchUserData} 
-            closeLoginPage={this.closeLoginPage}/>}
-        {this.state.homepage &&
-          <section className="home-page">
-            <CardContainer 
-              movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
-          </section>
-        }
-        {this.state.selectedMovie &&
-            <Movie 
-              movie={this.state.selectedMovie}
-              closeMovieDetail={this.closeMovieDetail}
+      <BrowserRouter>
+        <main className="App">
+        {this.state.user ?
+          <Header 
+            buttonDisplay={this.logOut} 
+            user={this.state.user}
+            buttonText='Log Out'
+            title={`Welcome ${this.state.user.name}`}
+            /> :
+          <Header 
+            buttonDisplay={this.showLoginPage}
+            buttonText='Log In'
+            title='Welcome to Rancid Tomatillos'
             />
         }
-        {this.state.error &&
-          <ErrorPage errorCode={this.state.error}/>
-        }
-      </main>
+          <Switch>
+            <Route path="/" exact render={() => 
+              <CardContainer
+                movies={this.state.movies} 
+                renderSpecificMovie={this.renderSpecificMovie} 
+              />
+              } 
+            />
+            <Route path="/login" exact render={() => 
+              <Login
+                fetchUserData={this.fetchUserData}
+              />
+            } 
+          />
+            <Route path="/movies/:id" render={() => 
+              <Movie 
+                movie={this.state.selectedMovie}
+              />
+              } 
+            />
+            <Route path="/error" exact render={() => <ErrorPage />} />
+          </Switch>
+          {this.state.error &&
+            <ErrorPage errorCode={this.state.error}/>
+          }
+        </main>
+      </BrowserRouter>
     );
   }
 }

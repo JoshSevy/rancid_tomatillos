@@ -1,8 +1,10 @@
 import './Movie.css';
 
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 function Movie(props) {
+
   return (
     <section 
       className="movie-page" 
@@ -18,12 +20,14 @@ function Movie(props) {
           Average Rating: {props.movie.avgRating} Tomatillos
         </p>
       </article>
+      <Link to="/">
       <button 
       className="back-button"
       onClick={props.closeMovieDetail}
       >
         <span>&#215;</span>
       </button>
+      </Link>
     </section>
   )
 }
