@@ -1,9 +1,11 @@
 import './Card.css';
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Card(props) {
   return (
+    <Link to={"movies/"+ props.id}>
     <div className="Card-block">
       <article 
         className="Card" 
@@ -16,6 +18,7 @@ function Card(props) {
         <p>Average Rating: {props.avgRating}</p>
       </article>
     </div>
+    </Link>
   )
 }
 
