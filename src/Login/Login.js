@@ -1,6 +1,7 @@
 import './Login.css'
 
 import React, { Component } from 'react';
+import {link, Link} from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -36,10 +37,13 @@ class Login extends Component {
   render() {
       return (
       <section className="Login">
-          <button 
-            className="close-login-form" onClick={this.props.closeLoginPage}>
-            <span>&#215;</span>
-          </button>
+      <Link to="/">
+        <button 
+          className="close-login-form"
+        >
+          <span>&#215;</span>
+        </button>
+      </Link>
         <h2>Rancid Tomatillos Login</h2>
           <form className="login-form">
             <input
@@ -56,11 +60,13 @@ class Login extends Component {
               onChange={this.userLoginInfo}
               name="password"
             />
-            <button
-              onClick={this.loginUser}
-            >
-            Submit
-            </button>
+            <Link to="/">
+              <button
+                onClick={this.loginUser}
+              >
+              Submit
+              </button>
+            </Link>
           </form>
         </section>
       )

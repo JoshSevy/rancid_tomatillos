@@ -2,10 +2,16 @@ import Card from '../Card/Card';
 import './CardContainer.css';
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const CardContainer = ({movies, renderSpecificMovie}) => {
+const CardContainer = ({movies, renderSpecificMovie}, event) => {
+  
   return (
-    <section className="CardContainer" onClick={renderSpecificMovie}>
+    <Link to="/movies/{id}">
+    <section 
+      className="CardContainer" 
+      onClick={renderSpecificMovie}
+    >
       {
         movies.map(movie => {
         return <Card
@@ -18,6 +24,7 @@ const CardContainer = ({movies, renderSpecificMovie}) => {
         })
       }
     </section>
+    </Link>
   )
 }
 

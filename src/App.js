@@ -5,6 +5,7 @@ import Login from './Login/Login';
 import ErrorPage from './ErrorPage/ErrorPage';
 
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 
@@ -49,12 +50,7 @@ class App extends Component {
     this.setState({user: null});
   }
 
-  renderSpecificMovie(event) {
-    if(event.target.closest(".Card")) {
-      const id = event.target.closest('.Card').id;
-      this.fetchSpecificMovie(id);
-    }
-  };
+  
 
   componentDidMount() {
     this.fetchMovies()
@@ -99,62 +95,68 @@ class App extends Component {
       });
   }
 
-  fetchSpecificMovie(id) {
-    fetch(`https://rancid-tomatillos.herokuapp.com/api/v2/movies/${id}`)
-      .then(response => response.json())
-      .then(data => data.movie = {
-          id: data.movie.id,
-          backdropUrl: data.movie["backdrop_path"],
-          title: data.movie.title,
-          avgRating: data.movie["average_rating"],
-          releaseDate: data.movie["release_date"],
-          description: data.movie.overview,
-          genres: data.movie.genres,
-          runtime: data.movie.runtime
-        }
-      )
-      .then(movie => this.setState({selectedMovie: movie, homepage: false}))
-      .catch(error => {
-        this.setState({homepage: false, selectedMovie: false, error: true})
-      })
-  }
-
   render() {
     return (
-      <main className="App">
-      {this.state.user ?
-        <Header 
-          buttonDisplay={this.logOut} 
-          user={this.state.user}
-          buttonText='Log Out'
-          title={`Welcome ${this.state.user.name}`}
-          /> :
-        <Header 
-          buttonDisplay={this.showLoginPage}
-          buttonText='Log In'
-          title='Welcome to Rancid Tomatillos'
-          />
-      }
-        {this.state.login &&
-          <Login
-            fetchUserData={this.fetchUserData} 
-            closeLoginPage={this.closeLoginPage}/>}
-        {this.state.homepage &&
-          <section className="home-page">
-            <CardContainer 
-              movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
-          </section>
-        }
-        {this.state.selectedMovie &&
-            <Movie 
-              movie={this.state.selectedMovie}
-              closeMovieDetail={this.closeMovieDetail}
+      <BrowserRouter>
+        <main className="App">
+        {this.state.user ?
+          <Header 
+            buttonDisplay={this.logOut} 
+            user={this.state.user}
+            buttonText='Log Out'
+            title={`Welcome ${this.state.user.name}`}
+            /> :
+          <Header 
+            buttonDisplay={this.showLoginPage}
+            buttonText='Log In'
+            title='Welcome to Rancid Tomatillos'
             />
         }
-        {this.state.error &&
-          <ErrorPage errorCode={this.state.error}/>
-        }
-      </main>
+          <Switch>
+            <Route path="/" exact render={() => 
+              <CardContainer
+                movies={this.state.movies} 
+                renderSpecificMovie={this.renderSpecificMovie} 
+              />
+              } 
+            />
+            <Route path="/login" exact render={() => 
+              <Login
+                fetchUserData={this.fetchUserData}
+                closeLoginPage={this.closeLoginPage} 
+              />
+            } 
+          />
+            <Route path="/movies/:id" render={() => 
+              <Movie 
+                movie={this.state.selectedMovie}
+                closeMovieDetail={this.closeMovieDetail}
+              />
+              } 
+            />
+            <Route path="/error" exact render={() => <ErrorPage />} />
+          </Switch>
+          {/* {this.state.login &&
+            <Login
+              fetchUserData={this.fetchUserData} 
+              closeLoginPage={this.closeLoginPage}/>} */}
+          {/* {this.state.homepage &&
+            <section className="home-page">
+              <CardContainer 
+                movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
+            </section>
+          } */}
+          {this.state.selectedMovie &&
+              <Movie 
+                movie={this.state.selectedMovie}
+                closeMovieDetail={this.closeMovieDetail}
+              />
+          }
+          {this.state.error &&
+            <ErrorPage errorCode={this.state.error}/>
+          }
+        </main>
+      </BrowserRouter>
     );
   }
 }
