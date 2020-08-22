@@ -84,12 +84,12 @@ class App extends Component {
       .then(response => response.json())
       .then(data => data.movies.map(movie => {
         return {
-        id: movie.id,
-        posterUrl: movie["poster_path"],
-        backdropUrl: movie["backdrop_path"],
-        title: movie.title,
-        avgRating: movie["average_rating"],
-        releaseDate: movie["release_date"]
+          id: movie.id,
+          posterUrl: movie["poster_path"],
+          backdropUrl: movie["backdrop_path"],
+          title: movie.title,
+          avgRating: movie["average_rating"],
+          releaseDate: movie["release_date"]
         }
       }))
       .then(movies => this.setState({movies: movies}))
@@ -100,9 +100,20 @@ class App extends Component {
   }
 
   fetchSpecificMovie(id) {
-    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
+    fetch(`https://rancid-tomatillos.herokuapp.com/api/v2/movies/${id}`)
       .then(response => response.json())
-      .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
+      .then(data => data.movie = {
+          id: data.movie.id,
+          backdropUrl: data.movie["backdrop_path"],
+          title: data.movie.title,
+          avgRating: data.movie["average_rating"],
+          releaseDate: data.movie["release_date"],
+          description: data.movie.overview,
+          genres: data.movie.genres,
+          runtime: data.movie.runtime
+        }
+      )
+      .then(movie => this.setState({selectedMovie: movie, homepage: false}))
       .catch(error => {
         this.setState({homepage: false, selectedMovie: false, error: true})
       })
