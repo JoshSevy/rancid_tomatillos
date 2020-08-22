@@ -8,8 +8,6 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-// const movies = new Api('/movies');
-
 class App extends Component {
   constructor() {
     super()
@@ -22,6 +20,7 @@ class App extends Component {
       user: null
     };
 
+    this.closeMovieDetail = this.closeMovieDetail.bind(this);
     this.showLoginPage = this.showLoginPage.bind(this);
     this.closeLoginPage = this.closeLoginPage.bind(this);
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
@@ -37,6 +36,15 @@ class App extends Component {
     this.setState({login: false});
   }
 
+  closeMovieDetail() {
+    this.setState(
+      {
+      homepage: true,
+      selectedMovie: false
+      }
+    )
+  }
+
   logOut() {
     this.setState({user: null});
   }
@@ -50,6 +58,7 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchMovies()
+    
   }
 
   fetchUserData(user) {
@@ -73,7 +82,17 @@ class App extends Component {
   fetchMovies() {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
       .then(response => response.json())
-      .then(movies => this.setState({movies: movies.movies}))
+      .then(data => data.movies.map(movie => {
+        return {
+          id: movie.id,
+          posterUrl: movie["poster_path"],
+          backdropUrl: movie["backdrop_path"],
+          title: movie.title,
+          avgRating: movie["average_rating"],
+          releaseDate: movie["release_date"]
+        }
+      }))
+      .then(movies => this.setState({movies: movies}))
       .catch(error => {
         console.log(error);
         this.setState({homepage: false, error: true})
@@ -81,9 +100,20 @@ class App extends Component {
   }
 
   fetchSpecificMovie(id) {
-    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
+    fetch(`https://rancid-tomatillos.herokuapp.com/api/v2/movies/${id}`)
       .then(response => response.json())
-      .then(response => this.setState({selectedMovie: response.movie, homepage: false}))
+      .then(data => data.movie = {
+          id: data.movie.id,
+          backdropUrl: data.movie["backdrop_path"],
+          title: data.movie.title,
+          avgRating: data.movie["average_rating"],
+          releaseDate: data.movie["release_date"],
+          description: data.movie.overview,
+          genres: data.movie.genres,
+          runtime: data.movie.runtime
+        }
+      )
+      .then(movie => this.setState({selectedMovie: movie, homepage: false}))
       .catch(error => {
         this.setState({homepage: false, selectedMovie: false, error: true})
       })
@@ -93,19 +123,33 @@ class App extends Component {
     return (
       <main className="App">
       {this.state.user ?
-        <Header logOut={this.logOut} user={this.state.user}/> :
-        <Header showLoginPage={this.showLoginPage}/>
+        <Header 
+          buttonDisplay={this.logOut} 
+          user={this.state.user}
+          buttonText='Log Out'
+          title={`Welcome ${this.state.user.name}`}
+          /> :
+        <Header 
+          buttonDisplay={this.showLoginPage}
+          buttonText='Log In'
+          title='Welcome to Rancid Tomatillos'
+          />
       }
         {this.state.login &&
           <Login
-            fetchUserData={this.fetchUserData} closeLoginPage={this.closeLoginPage}/>}
+            fetchUserData={this.fetchUserData} 
+            closeLoginPage={this.closeLoginPage}/>}
         {this.state.homepage &&
           <section className="home-page">
-            <CardContainer movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
+            <CardContainer 
+              movies={this.state.movies} renderSpecificMovie={this.renderSpecificMovie}/>
           </section>
         }
         {this.state.selectedMovie &&
-            <Movie movie={this.state.selectedMovie}/>
+            <Movie 
+              movie={this.state.selectedMovie}
+              closeMovieDetail={this.closeMovieDetail}
+            />
         }
         {this.state.error &&
           <ErrorPage errorCode={this.state.error}/>
@@ -114,6 +158,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;

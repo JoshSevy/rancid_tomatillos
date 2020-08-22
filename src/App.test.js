@@ -18,14 +18,14 @@ describe('App Component', () => {
 })
 
 
-// const mockFetch = async (data) => {
-//   return jest.fn().mockImplementation(() =>
-//     Promise.resolve({
-//       ok: true,
-//       json: () => data
-//     })
-//   );
-// }
+const mockFetch = async (data) => {
+  return jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => data
+    })
+  );
+}
 
 
 
