@@ -10,8 +10,8 @@ const CardContainer = ({movies, renderSpecificMovie}) => {
         movies.map(movie => {
         return <Card
           title={movie.title}
-          poster={movie['poster_path']}
-          avgRating={movie['average_rating']}
+          poster={movie.posterUrl}
+          avgRating={movie.avgRating}
           key={movie.id}
           id={movie.id}
         />

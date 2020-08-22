@@ -58,6 +58,7 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchMovies()
+    
   }
 
   fetchUserData(user) {
@@ -81,7 +82,17 @@ class App extends Component {
   fetchMovies() {
     fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
       .then(response => response.json())
-      .then(movies => this.setState({movies: movies.movies}))
+      .then(data => data.movies.map(movie => {
+        return {
+        id: movie.id,
+        posterUrl: movie["poster_path"],
+        backdropUrl: movie["backdrop_path"],
+        title: movie.title,
+        avgRating: movie["average_rating"],
+        releaseDate: movie["release_date"]
+        }
+      }))
+      .then(movies => this.setState({movies: movies}))
       .catch(error => {
         console.log(error);
         this.setState({homepage: false, error: true})
