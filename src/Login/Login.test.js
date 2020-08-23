@@ -2,11 +2,16 @@ import Login from './Login';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Login Component', () => {
   it('should render App correctly', () => {
 
-    render(<Login />)
+    render(
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
+    )
 
     const headerText = screen.getByText(/Rancid Tomatillos/i);
     const headerLoginText = screen.getByText(/login/i)

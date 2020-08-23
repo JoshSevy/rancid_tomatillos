@@ -31,7 +31,6 @@ class Login extends Component {
       };
 
     this.props.fetchUserData(user)
-    this.props.closeLoginPage();
   }
 
   render() {

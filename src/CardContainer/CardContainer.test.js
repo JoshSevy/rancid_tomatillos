@@ -2,33 +2,38 @@ import CardContainer from './CardContainer';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('CardContainer Component', () => {
-  let mockRenderSpecificMovie;
-  beforeEach(() => {
-    mockRenderSpecificMovie = jest.fn();
-
-    render(
-      <CardContainer
-        onClick={mockRenderSpecificMovie}
-        movies={[
-          {
-            poster: "image-file.jpg",
-            id: 2,
-            title: "Inception",
-            avgRating: "9.9",
-            key: 2,
-          }
-        ]}
-      />
-    );
-  })
-
+  
   it('should have correct content when rendered', () => {
+
+    const mockRenderSpecificMovie = jest.fn();
+
+    const { getByRole } = render(
+      <BrowserRouter>
+        <CardContainer
+          onClick={mockRenderSpecificMovie}
+          movies={[
+            {
+              poster: "image-file.jpg",
+              id: 2,
+              title: "Inception",
+              avgRating: "9.9",
+              key: 2,
+            }
+          ]}
+        />
+      </BrowserRouter>
+    );
     
-  const title = screen.getByText(/Inception/i);
+  const title = getByRole("heading", /Inception/i);
+  const id = getByRole("heading", "2");
+  const avgRating = getByRole("heading", "9.9");
   
   expect(title).toBeInTheDocument();
+  expect(id).toBeInTheDocument();
+  expect(avgRating).toBeInTheDocument();
   });
 
   it('should change render onClick', () => {
