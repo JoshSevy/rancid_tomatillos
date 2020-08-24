@@ -55,7 +55,7 @@ class App extends Component {
           posterUrl: movie["poster_path"],
           backdropUrl: movie["backdrop_path"],
           title: movie.title,
-          avgRating: movie["average_rating"],
+          avgRating: Math.round(movie["average_rating"]),
           releaseDate: movie["release_date"]
         }
       }))
