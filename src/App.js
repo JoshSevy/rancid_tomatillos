@@ -26,6 +26,7 @@ class App extends Component {
     this.fetchUserRatings = this.fetchUserRatings.bind(this);
     this.logOut = this.logOut.bind(this);
     this.displayUserRatings = this.displayUserRatings.bind(this);
+    this.postUserRating = this.postUserRating.bind(this);
   }
 
 
@@ -49,7 +50,10 @@ class App extends Component {
   }
 
   fetchUserRatings(id, url) {
-    fetch(`${url}${id}/ratings`)
+    if (!url.includes('ratings')) {
+      url = `${url}${id}/ratings`;
+    }
+    fetch(url)
       .then(response => response.json())
       .then(data => data.ratings.map(rating => {
         return {
@@ -70,6 +74,7 @@ class App extends Component {
   }
 
   postUserRating(id, url, rating) {
+    console.log(JSON.stringify(rating));
     const options = {
       method: 'POST',
       body: JSON.stringify(rating),
@@ -77,8 +82,11 @@ class App extends Component {
         'Content-Type': 'application/json'
       }
     }
-    fetch(`${url}${id}/ratings`, options)
-      .then(response => this.fetchUserRatings(id, url))
+    fetch(url, options)
+      .then(response => {
+        console.log(response)
+        this.fetchUserRatings(id, url)
+      })
       .catch(error => console.log(error))
   }
 

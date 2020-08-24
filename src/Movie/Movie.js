@@ -24,7 +24,7 @@ class Movie extends Component {
     const url = `https://rancid-tomatillos.herokuapp.com/api/v2/users/${this.props.user.id}/ratings`;
     const rating = {
       movie_id: this.props.movie.id,
-        rating: this.state.sliderValue
+        rating: Number(this.state.sliderValue)
     }
     this.props.postUserRating(this.props.user.id, url, rating);
   }
