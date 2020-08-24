@@ -3,7 +3,7 @@ import './CardContainer.css';
 
 import React from 'react';
 
-const CardContainer = ({movies, user, renderSpecificMovie}) => {
+const CardContainer = ({movies, user, renderSpecificMovie, displayUserRatings}) => {
   return (
     <section className="CardContainer" onClick={renderSpecificMovie}>
       {
@@ -15,6 +15,7 @@ const CardContainer = ({movies, user, renderSpecificMovie}) => {
           avgRating={movie.avgRating}
           key={movie.id}
           id={movie.id}
+          displayUserRatings={displayUserRatings}
         />
         })
       }

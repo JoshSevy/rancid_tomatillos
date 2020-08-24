@@ -8,14 +8,25 @@ class Movie extends Component {
     super(props)
 
     this.state = {
-      sliderValue: 10
+      sliderValue: "10"
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.submitRating = this.submitRating.bind(this);
   }
 
   handleChange(event) {
     this.setState({sliderValue: event.target.value})
+  }
+
+  submitRating(event) {
+    event.preventDefault();
+    const url = `https://rancid-tomatillos.herokuapp.com/api/v2/users/${this.props.user.id}/ratings`;
+    const rating = {
+      movie_id: this.props.movie.id,
+        rating: this.state.sliderValue
+    }
+    this.props.postUserRating(this.props.user.id, url, rating);
   }
 
   render() {
@@ -34,10 +45,11 @@ class Movie extends Component {
             Average Rating: {this.props.movie.avgRating} Tomatillos
           </p>
           {this.props.user &&
-            <form class="submit-rating">
+            <form className="submit-rating">
               Submit new rating: <br />
-              <input type="range" name="rating-input" min="1" max="10" step="1" class="rating-input" onChange={this.handleChange}/>
-              <output for="rating-input" class="rating-output">{this.state.sliderValue} Tomatillos</output>
+              <input type="range" name="rating-input" min="1" max="10" step="1" className="rating-input" onChange={this.handleChange}/>
+              <output for="rating-input" className="rating-output">{this.state.sliderValue} Tomatillos</output>
+              <button className="submit-rating" onClick={this.submitRating}>Submit Rating</button>
             </form>
           }
         </article>

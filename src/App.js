@@ -19,13 +19,13 @@ class App extends Component {
       login: false,
       selectedMovie: false,
       user: {id: 73, name: "Marge", email: "marge@turing.io"}
-
     };
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
     this.fetchUserRatings = this.fetchUserRatings.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.displayUserRatings = this.displayUserRatings.bind(this);
   }
 
 
@@ -63,7 +63,7 @@ class App extends Component {
       }))
       .then(ratings => {
         this.state.user.ratings = ratings;
-        this.setState({user: this.state.user})
+        this.setState({user: this.state.user, ratings})
         }
       )
       .catch(error => console.log(error))
@@ -84,7 +84,9 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchMovies()
-
+    const id = this.state.user.id;
+    const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
+    this.fetchUserRatings(id, url);
   }
 
   fetchUserData(user) {
@@ -145,6 +147,19 @@ class App extends Component {
       })
   }
 
+  displayUserRatings(id) {
+    let movieRating;
+    if (!this.state.user.ratings) {
+      movieRating = "none";
+    } else {
+      const movie = this.state.user.ratings.find(rating => {
+        return id === rating.movieId;
+      })
+      movieRating = movie ? movie.rating : "none";
+    }
+    return movieRating;
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -168,6 +183,7 @@ class App extends Component {
                 movies={this.state.movies}
                 user={this.state.user}
                 renderSpecificMovie={this.renderSpecificMovie}
+                displayUserRatings={this.displayUserRatings}
               />
               }
             />
@@ -181,7 +197,7 @@ class App extends Component {
               <Movie
                 movie={this.state.selectedMovie}
                 user={this.state.user}
-                postUserRatings={this.postUserRatings}
+                postUserRating={this.postUserRating}
               />
               }
             />
