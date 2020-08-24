@@ -19,6 +19,17 @@ class Movie extends Component {
     this.setState({sliderValue: event.target.value})
   }
 
+  movieValidation() {
+    const movie = this.props.user.ratings.find(rating => {
+      return this.props.movie.id === rating.movieId;
+    })
+    if (movie) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   submitRating(event) {
     event.preventDefault();
     const url = `https://rancid-tomatillos.herokuapp.com/api/v2/users/${this.props.user.id}/ratings`;
@@ -26,7 +37,9 @@ class Movie extends Component {
       movie_id: this.props.movie.id,
         rating: Number(this.state.sliderValue)
     }
-    this.props.postUserRating(this.props.user.id, url, rating);
+    if (this.movieValidation()) {
+      this.props.postUserRating(this.props.user.id, url, rating);
+    }
   }
 
   render() {
