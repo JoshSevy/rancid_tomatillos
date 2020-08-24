@@ -19,12 +19,15 @@ class App extends Component {
       // error: false,
       // login: false,
       selectedMovie: false,
-      user: {}
+      user: {id: 73, name: "Marge", email: "marge@turing.io"}
     };
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
-    this.getUserData = this.getUserData.bind(this)
+    this.fetchUserData = this.fetchUserData.bind(this);
+    this.fetchUserRatings = this.fetchUserRatings.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.displayUserRatings = this.displayUserRatings.bind(this);
+    this.postUserRating = this.postUserRating.bind(this);
   }
 
   getUserData(user) {
@@ -42,8 +45,78 @@ class App extends Component {
     }
   };
 
+  componentDidUpdate() {
+    if (this.state.user && !this.state.user.ratings) {
+      const id = this.state.user.id;
+      const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
+      this.fetchUserRatings(id, url);
+    }
+  }
+
+  fetchUserRatings(id, url) {
+    if (!url.includes('ratings')) {
+      url = `${url}${id}/ratings`;
+    }
+    fetch(url)
+      .then(response => response.json())
+      .then(data => data.ratings.map(rating => {
+        return {
+          id: rating.id,
+          userId: rating["user_id"],
+          movieId: rating["movie_id"],
+          rating: rating.rating,
+          createdAt: rating["created_at"],
+          updatedAt: rating["updated_at"]
+        }
+      }))
+      .then(ratings => {
+        this.state.user.ratings = ratings;
+        this.setState({user: this.state.user, ratings})
+        }
+      )
+      .catch(error => console.log(error))
+  }
+
+  postUserRating(id, url, rating) {
+    console.log(JSON.stringify(rating));
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(rating),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(url, options)
+      .then(response => {
+        console.log(response)
+        this.fetchUserRatings(id, url)
+      })
+      .catch(error => console.log(error))
+  }
+
   componentDidMount() {
     this.fetchMovies()
+    const id = this.state.user.id;
+    const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
+    this.fetchUserRatings(id, url);
+  }
+
+  fetchUserData(user) {
+    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(url, options)
+      .then(response => response.json())
+      .then(response => this.setState({ user: response.user }))
+      .catch(error => {
+        console.log('invalid user', error)
+        this.setState({ error: 'Invalid email or password' })
+      })
   }
 
   fetchMovies() {
@@ -86,6 +159,19 @@ class App extends Component {
       })
   }
 
+  displayUserRatings(id) {
+    let movieRating;
+    if (!this.state.user.ratings) {
+      movieRating = "none";
+    } else {
+      const movie = this.state.user.ratings.find(rating => {
+        return id === rating.movieId;
+      })
+      movieRating = movie ? movie.rating : "none";
+    }
+    return movieRating;
+  }
+
   render() {
     return (
         <main className="App">
@@ -96,7 +182,7 @@ class App extends Component {
             buttonText='Log Out'
             title={`Welcome ${this.state.user.name}`}
             /> :
-          <Header 
+          <Header
             buttonDisplay={this.showLoginPage}
             buttonText='Log In'
             title='Welcome to Rancid Tomatillos'
@@ -105,22 +191,26 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => 
               <CardContainer
-                movies={this.state.movies} 
-                renderSpecificMovie={this.renderSpecificMovie} 
+                movies={this.state.movies}
+                user={this.state.user}
+                renderSpecificMovie={this.renderSpecificMovie}
+                displayUserRatings={this.displayUserRatings}
               />
-              } 
+              }
             />
             <Route exact path="/login" render={() => 
               <Login
                 getUserData={this.getUserData}
               />
-            } 
+            }
           />
-            <Route path="/movies/:id" render={() => 
-              <Movie 
+            <Route path="/movies/:id" render={() =>
+              <Movie
                 movie={this.state.selectedMovie}
+                user={this.state.user}
+                postUserRating={this.postUserRating}
               />
-              } 
+              }
             />
             <Route exact path="/error" render={() => <ErrorPage />} />
           </Switch>
