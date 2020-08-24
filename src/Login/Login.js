@@ -2,6 +2,7 @@ import './Login.css'
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Login extends Component {
   constructor(props) {
@@ -11,10 +12,26 @@ class Login extends Component {
       isVisible: false,
       error: '',
       email: '',
-      password: '',
-      user: null
+      password: ''
     };
-    this.loginUser = this.loginUser.bind(this)
+  }
+
+  fetchUserData(user) {
+    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(url, options)
+      .then(response => response.json())
+      .then(userData => this.props.getUserData(userData.user))
+      .catch(error => {
+        console.log('invalid user', error)
+        this.setState({ error: 'Invalid email or password' })
+      })
   }
 
   userLoginInfo = (event) => {
@@ -23,14 +40,14 @@ class Login extends Component {
     this.setState({[formData]: formValue});
   }
 
-  loginUser(event) {
+  loginUser = (event) => {
     event.preventDefault();
     const user = {
         email: this.state.email,
         password: this.state.password
       };
 
-    this.props.fetchUserData(user)
+    this.fetchUserData(user);
   }
 
   render() {
@@ -59,13 +76,11 @@ class Login extends Component {
               onChange={this.userLoginInfo}
               name="password"
             />
-            <Link to="/">
-              <button
-                onClick={this.loginUser}
-              >
-              Submit
-              </button>
-            </Link>
+            <button
+              onClick={this.loginUser}
+            >
+            Submit
+            </button>
           </form>
         </section>
       )
@@ -73,3 +88,9 @@ class Login extends Component {
 }
 
 export default Login;
+
+Login.propTypes = {
+  error: PropTypes.string,
+  email: PropTypes.string,
+  password: PropTypes.string
+};

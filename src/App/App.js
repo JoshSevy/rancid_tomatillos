@@ -1,11 +1,12 @@
-import CardContainer from './CardContainer/CardContainer';
-import Movie from './Movie/Movie';
-import Header from './Header/Header';
-import Login from './Login/Login';
-import ErrorPage from './ErrorPage/ErrorPage';
+import CardContainer from '../CardContainer/CardContainer';
+import Movie from '../Movie/Movie';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import './App.css';
 
@@ -14,21 +15,24 @@ class App extends Component {
     super()
     this.state = {
       movies: [],
-      homepage: true,
-      error: false,
-      login: false,
+      // homepage: true,
+      // error: false,
+      // login: false,
       selectedMovie: false,
-      user: null
+      user: {}
     };
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
-    this.fetchUserData = this.fetchUserData.bind(this);
+    this.getUserData = this.getUserData.bind(this)
     this.logOut = this.logOut.bind(this);
   }
 
+  getUserData(user) {
+    this.setState({user: user})
+  }
 
   logOut() {
-    this.setState({user: null});
+    this.setState({user: {}});
   }
 
   renderSpecificMovie(event) {
@@ -40,25 +44,6 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchMovies()
-    
-  }
-
-  fetchUserData(user) {
-    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    fetch(url, options)
-      .then(response => response.json())
-      .then(response => this.setState({ user: response.user }))
-      .catch(error => {
-        console.log('invalid user', error)
-        this.setState({ error: 'Invalid email or password' })
-      })
   }
 
   fetchMovies() {
@@ -103,9 +88,8 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
         <main className="App">
-        {this.state.user ?
+        {this.state.user.id ?
           <Header 
             buttonDisplay={this.logOut} 
             user={this.state.user}
@@ -119,16 +103,16 @@ class App extends Component {
             />
         }
           <Switch>
-            <Route path="/" exact render={() => 
+            <Route exact path="/" render={() => 
               <CardContainer
                 movies={this.state.movies} 
                 renderSpecificMovie={this.renderSpecificMovie} 
               />
               } 
             />
-            <Route path="/login" exact render={() => 
+            <Route exact path="/login" render={() => 
               <Login
-                fetchUserData={this.fetchUserData}
+                getUserData={this.getUserData}
               />
             } 
           />
@@ -138,15 +122,20 @@ class App extends Component {
               />
               } 
             />
-            <Route path="/error" exact render={() => <ErrorPage />} />
+            <Route exact path="/error" render={() => <ErrorPage />} />
           </Switch>
           {this.state.error &&
             <ErrorPage errorCode={this.state.error}/>
           }
         </main>
-      </BrowserRouter>
     );
   }
 }
 
 export default App;
+
+
+App.propTypes = {
+  movies: PropTypes.array,
+  user: PropTypes.object
+}
