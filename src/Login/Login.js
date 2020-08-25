@@ -11,12 +11,11 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      isVisible: false,
       error: '',
       email: '',
       password: '',
       user: {},
-      userLoggedIn: false
+      isUserAuthenticated: false
     };
   }
 

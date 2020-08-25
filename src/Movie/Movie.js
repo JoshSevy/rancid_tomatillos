@@ -20,7 +20,7 @@ class Movie extends Component {
   }
 
   movieValidation() {
-    const movie = this.props.user.ratings.find(rating => {
+    const movie = this.props.ratings.find(rating => {
       return this.props.movie.id === rating.movieId;
     })
     if (movie) {

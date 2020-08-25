@@ -4,10 +4,10 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi } from '../apis/apis';
+import { movieApi, ratingsApi } from '../apis/apis';
 
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import './App.css';
@@ -17,12 +17,11 @@ class App extends Component {
     super()
     this.state = {
       movies: [],
-      // homepage: true,
-      // error: false,
-      // login: false,
       selectedMovie: false,
       user: {},
-      userLoggedIn: false
+      ratings: [],
+      isUserAuthenticated: false
+
     };
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
@@ -32,12 +31,12 @@ class App extends Component {
     this.getUserData = this.getUserData.bind(this);
   }
 
-  getUserData(user, userLoggedIn) {
-    this.setState({user: user, userLoggedIn: userLoggedIn})
+  getUserData(user, status) {
+    this.setState({user: user, isUserAuthenticated: status})
   }
 
   logOut() {
-    this.setState({user: {}, userLoggedIn: false});
+    this.setState({user: {}, isUserAuthenticated: false});
   }
 
   renderSpecificMovie(event) {
@@ -48,34 +47,14 @@ class App extends Component {
   };
 
   componentDidUpdate() {
-    if (this.state.user && !this.state.user.ratings) {
+    if (this.state.isUserAuthenticated && !this.state.ratings) {
       const id = this.state.user.id;
-      const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
-      // this.fetchUserRatings(id, url);
+      this.getUserRatings(id);
     }
   }
 
-  fetchUserRatings(id, url) {
-    if (!url.includes('ratings')) {
-      url = `${url}${id}/ratings`;
-    }
-    fetch(url)
-      .then(response => response.json())
-      .then(data => data.ratings.map(rating => {
-        return {
-          id: rating.id,
-          userId: rating["user_id"],
-          movieId: rating["movie_id"],
-          rating: rating.rating,
-          createdAt: rating["created_at"],
-          updatedAt: rating["updated_at"]
-        }
-      }))
-      .then(ratings => {
-        this.state.user.ratings = ratings;
-        this.setState({user: this.state.user, ratings})
-        }
-      )
+  getUserRatings(id) {
+    ratingsApi(id).then(ratings => this.setState({ratings: ratings}))
       .catch(error => console.log(error))
   }
 
@@ -97,9 +76,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const id = this.state.user.id;
-    const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
-    this.fetchUserRatings(id, url);
+    
     this.getMoviesData();
   }
 
@@ -143,10 +120,10 @@ class App extends Component {
 
   displayUserRatings(id) {
     let movieRating;
-    if (!this.state.user.ratings) {
+    if (!this.state.ratings) {
       movieRating = "none";
     } else {
-      const movie = this.state.user.ratings.find(rating => {
+      const movie = this.state.ratings.find(rating => {
         return id === rating.movieId;
       })
       movieRating = movie ? movie.rating : "none";
@@ -187,7 +164,7 @@ class App extends Component {
             />
             <Route exact path="/login" render={() => {
               return (
-                (this.state.userLoggedIn === true) ? 
+                (this.state.isUserAuthenticated) ? 
                   <Redirect to="/" />:
                   <Redirect to="/login" />
                 )
