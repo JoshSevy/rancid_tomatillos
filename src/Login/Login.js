@@ -15,27 +15,10 @@ class Login extends Component {
       error: '',
       email: '',
       password: '',
-      user: {}
+      user: {},
+      userLoggedIn: false
     };
   }
-
-  // fetchUserData(user) {
-  //   const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-  //   const options = {
-  //     method: 'POST',
-  //     body: JSON.stringify(user),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }
-  //   fetch(url, options)
-  //     .then(response => response.json())
-  //     .then(userData => this.props.getUserData(userData.user))
-  //     .catch(error => {
-  //       console.log('invalid user', error)
-  //       this.setState({ error: 'Invalid email or password' })
-  //     })
-  // }
 
   userLoginInfo = (event) => {
     const formData = event.target.name;
@@ -53,8 +36,12 @@ class Login extends Component {
 
     await userApi(user)
     .then(response => this.setState({...response, email: '', password: ''}))
+    await this.validateLogin();
+    await this.props.getUserData(this.state.user, this.state.userLoggedIn)
+  }
 
-    await this.props.getUserData(this.state.user)
+  validateLogin = async () => {
+    (this.state.error === '') ? this.setState({userLoggedIn: true}) : this.setState({userLoggedIn: false})
   }
 
   render() {

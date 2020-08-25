@@ -32,8 +32,8 @@ class App extends Component {
     this.getUserData = this.getUserData.bind(this);
   }
 
-  getUserData(user) {
-    this.setState({ user: user , userLoggedIn: true})
+  getUserData(user, userLoggedIn) {
+    this.setState({user: user, userLoggedIn: userLoggedIn})
   }
 
   logOut() {
@@ -184,6 +184,14 @@ class App extends Component {
                 getUserData={this.getUserData}
               />
               }
+            />
+            <Route exact path="/login" render={() => {
+              return (
+                (this.state.userLoggedIn === true) ? 
+                  <Redirect to="/" />:
+                  <Redirect to="/login" />
+                )
+            }}
             />
             <Route path="/movies/:id" render={() =>
               <Movie
