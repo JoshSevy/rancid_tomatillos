@@ -4,6 +4,8 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
+import { movieApi } from '../apis/apis';
+
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -41,7 +43,7 @@ class App extends Component {
   renderSpecificMovie(event) {
     if(event.target.closest(".Card")) {
       const id = event.target.closest('.Card').id;
-      this.fetchSpecificMovie(id);
+      this.getSpecificMovieData(id);
     }
   };
 
@@ -95,10 +97,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.fetchMovies()
     const id = this.state.user.id;
     const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
     this.fetchUserRatings(id, url);
+    this.getMoviesData();
+    
+    
   }
 
   fetchUserData(user) {
@@ -119,9 +123,8 @@ class App extends Component {
       })
   }
 
-  fetchMovies() {
-    fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies')
-      .then(response => response.json())
+  getMoviesData() {
+    movieApi()
       .then(data => data.movies.map(movie => {
         return {
           id: movie.id,
@@ -135,28 +138,27 @@ class App extends Component {
       .then(movies => this.setState({movies: movies}))
       .catch(error => {
         console.log(error);
-        this.setState({homepage: false, error: true})
+        
       });
   }
 
-  fetchSpecificMovie(id) {
-    fetch(`https://rancid-tomatillos.herokuapp.com/api/v2/movies/${id}`)
-      .then(response => response.json())
+  getSpecificMovieData(id) {
+    movieApi(id)
       .then(data => data.movie = {
-          id: data.movie.id,
-          backdropUrl: data.movie["backdrop_path"],
-          title: data.movie.title,
-          avgRating: data.movie["average_rating"],
-          releaseDate: data.movie["release_date"],
-          description: data.movie.overview,
-          genres: data.movie.genres,
-          runtime: data.movie.runtime
-        }
-      )
-      .then(movie => this.setState({selectedMovie: movie, homepage: false}))
-      .catch(error => {
-        this.setState({homepage: false, selectedMovie: false, error: true})
-      })
+        id: data.movie.id,
+        backdropUrl: data.movie["backdrop_path"],
+        title: data.movie.title,
+        avgRating: data.movie["average_rating"],
+        releaseDate: data.movie["release_date"],
+        description: data.movie.overview,
+        genres: data.movie.genres,
+        runtime: data.movie.runtime
+      }
+    )
+    .then(movie => this.setState({selectedMovie: movie}))
+    .catch(error => {
+      this.setState({selectedMovie: false, error: true})
+    })
   }
 
   displayUserRatings(id) {

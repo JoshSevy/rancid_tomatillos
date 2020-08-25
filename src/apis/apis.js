@@ -5,6 +5,19 @@ const fetchMovies = () => {
     .catch(error => console.log('parsing failed', error));
 }
 
+const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/';
+
+export const movieApi = async (id = "") => {
+  try {
+    const movieFetch = await fetch(`${url}movies/${id}`);
+    const moviesData = await movieFetch.json();
+    return moviesData
+  } 
+  catch {
+    return {error: 'error'}
+  }
+}
+
 const fetchSpecificMovie = (id) => {
   fetch('https://rancid-tomatillos.herokuapp.com/api/v2/movies/' + id)
     .then(response => response.json())
@@ -32,8 +45,6 @@ const fetchUserData = () => {
     .then(response => console.log(response));
 }
 
-
-export default {fetchUserData, fetchSpecificMovie, fetchMovies};
 
 
 
