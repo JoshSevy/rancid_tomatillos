@@ -1,11 +1,12 @@
 
 const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/';
 
+
 export const movieApi = async (id = "") => {
   try {
     const movieFetch = await fetch(`${url}movies/${id}`);
     const moviesData = await movieFetch.json();
-    return moviesData
+    return moviesData;
   } 
   catch {
     return {error: 'error'}
@@ -13,24 +14,23 @@ export const movieApi = async (id = "") => {
 }
 
 
-const fetchUserData = () => {
-  const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-
-  const user = {
-    email: 'marge@turing.io',
-    password: 'password123'
-  }
-
-  const options = {
+export const userApi = async (user) => {
+  const postStructure = {
     method: 'POST',
     body: JSON.stringify(user),
     headers: {
       'Content-Type': 'application/json'
     }
   }
-  fetch(url, options)
-    .then(response => response.json())
-    .then(response => console.log(response));
+
+  try{
+    const checkUser = await fetch(`${url}/login`, postStructure)
+    const userData = await checkUser.json();
+    return userData
+  } 
+  catch(error) {
+    return error
+  }
 }
 
 

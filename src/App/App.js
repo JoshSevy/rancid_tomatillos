@@ -7,7 +7,7 @@ import ErrorPage from '../ErrorPage/ErrorPage';
 import { movieApi } from '../apis/apis';
 
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import './App.css';
@@ -21,23 +21,23 @@ class App extends Component {
       // error: false,
       // login: false,
       selectedMovie: false,
-      user: {id: 73, name: "Marge", email: "marge@turing.io"}
+      user: {},
+      userLoggedIn: false
     };
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
-    this.fetchUserData = this.fetchUserData.bind(this);
-    this.fetchUserRatings = this.fetchUserRatings.bind(this);
     this.logOut = this.logOut.bind(this);
     this.displayUserRatings = this.displayUserRatings.bind(this);
     this.postUserRating = this.postUserRating.bind(this);
+    this.getUserData = this.getUserData.bind(this);
   }
 
   getUserData(user) {
-    this.setState({user: user})
+    this.setState({ user: user , userLoggedIn: true})
   }
 
   logOut() {
-    this.setState({user: {}});
+    this.setState({user: {}, userLoggedIn: false});
   }
 
   renderSpecificMovie(event) {
@@ -51,7 +51,7 @@ class App extends Component {
     if (this.state.user && !this.state.user.ratings) {
       const id = this.state.user.id;
       const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
-      this.fetchUserRatings(id, url);
+      // this.fetchUserRatings(id, url);
     }
   }
 
@@ -101,26 +101,6 @@ class App extends Component {
     const url = "https://rancid-tomatillos.herokuapp.com/api/v2/users/";
     this.fetchUserRatings(id, url);
     this.getMoviesData();
-    
-    
-  }
-
-  fetchUserData(user) {
-    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    fetch(url, options)
-      .then(response => response.json())
-      .then(response => this.setState({ user: response.user }))
-      .catch(error => {
-        console.log('invalid user', error)
-        this.setState({ error: 'Invalid email or password' })
-      })
   }
 
   getMoviesData() {
@@ -190,7 +170,6 @@ class App extends Component {
             title='Welcome to Rancid Tomatillos'
             />
         }
-          <Switch>
             <Route exact path="/" render={() => 
               <CardContainer
                 movies={this.state.movies}
@@ -204,8 +183,8 @@ class App extends Component {
               <Login
                 getUserData={this.getUserData}
               />
-            }
-          />
+              }
+            />
             <Route path="/movies/:id" render={() =>
               <Movie
                 movie={this.state.selectedMovie}
@@ -215,7 +194,6 @@ class App extends Component {
               }
             />
             <Route exact path="/error" render={() => <ErrorPage />} />
-          </Switch>
           {this.state.error &&
             <ErrorPage errorCode={this.state.error}/>
           }
