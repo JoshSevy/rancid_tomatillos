@@ -46,7 +46,6 @@ class App extends Component {
   };
 
   getUserRatings(id) {
-    console.log(test)
     ratingsApi(id)
       .then(ratings => ratings.ratings.map(rating => {
       return {
@@ -176,6 +175,7 @@ class App extends Component {
                 movie={this.state.selectedMovie}
                 user={this.state.user}
                 postUserRating={this.postUserRating}
+                ratings={this.state.ratings}
               />
               }
             />
