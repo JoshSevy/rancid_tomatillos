@@ -1,22 +1,34 @@
 import './Header.css';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { userApi } from '../helpers/apis';
 
 const Header = (props) => {
+  console.log(props)
   return (
+    (props.isUserAuthenticated) ? 
     <section className="header-container">
-    <h2 className="header-title">{props.title}</h2>
+      <h2
+        className="header-title"
+      >
+        Welcome `${props.user.name}!`
+    </h2>
       <article className="header-login">
-        <Link to="/login">
-          <button 
-            className="login-button" 
-            onClick={props.buttonDisplay}>
-            {props.buttonText}
-          </button>
-        </Link>
+        <NavLink to="/">LogOut</NavLink>
       </article>
-    </section>
+    </section> 
+    :
+    <section className="header-container">
+      <h2 
+        className="header-title"
+      >
+        Welcome To Rancid Tomatillos
+      </h2>
+      <article className="header-login">
+      <NavLink to="/login">LogIn</NavLink>
+      </article>
+    </section> 
   )
 }
 

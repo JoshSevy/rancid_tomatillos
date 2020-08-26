@@ -66,3 +66,11 @@ export const postRatingApi = async (id, rating) => {
   }
 }
 
+export const deleteRating = async (id, ratingID) => {
+  try {
+    await fetch(`${url}/users/${id}/ratings/${ratingID}`)
+  } catch(error) {
+    console.log(error);
+  }
+}
+

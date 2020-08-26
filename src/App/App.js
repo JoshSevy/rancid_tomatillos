@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi, ratingsApi, postRatingApi } from '../apis/apis';
+import { movieApi, ratingsApi, postRatingApi } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -122,7 +122,7 @@ class App extends Component {
       const movie = this.state.ratings.find(rating => {
         return id === rating.movieId;
       })
-      movieRating = movie ? movie.rating : "none";
+      movieRating = movie ? movie.rating : "Rate Me";
     }
     return movieRating;
   }
@@ -130,19 +130,10 @@ class App extends Component {
   render() {
     return (
         <main className="App">
-        {this.state.user.id ?
-          <Header 
-            buttonDisplay={this.logOut} 
-            user={this.state.user}
-            buttonText='Log Out'
-            title={`Welcome ${this.state.user.name}`}
-            /> :
           <Header
-            buttonDisplay={this.showLoginPage}
-            buttonText='Log In'
-            title='Welcome to Rancid Tomatillos'
-            />
-        }
+            isUserAuthenticated={this.state.isUserAuthenticated} 
+            user={this.state.user}
+            /> 
           <Route exact path="/" render={() => 
             <CardContainer
               movies={this.state.movies}
