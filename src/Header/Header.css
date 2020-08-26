@@ -18,5 +18,13 @@
   right: 10px;
   top: 30px;
   width: 4rem;
+  background-color: antiquewhite;
+  color: black;
+  border: 1px solid black;
   border-radius: 30px;
+  text-decoration: none;
 }
+
+
+
+

@@ -9,24 +9,26 @@ const Header = (props) => {
   return (
     (props.isUserAuthenticated) ? 
     <section className="header-container">
-      <h2
-        className="header-title"
-      >
-        Welcome `${props.user.name}!`
-    </h2>
+      <h2 className="header-title">
+        Welcome {props.user.name}!
+      </h2>
       <article className="header-login">
-        <NavLink to="/">LogOut</NavLink>
+        <NavLink 
+          to="/" 
+          onClick={props.logOut} 
+          className='login-button'
+        >
+          LogOut    
+        </NavLink>
       </article>
     </section> 
     :
     <section className="header-container">
-      <h2 
-        className="header-title"
-      >
+      <h2 className="header-title">
         Welcome To Rancid Tomatillos
       </h2>
       <article className="header-login">
-      <NavLink to="/login">LogIn</NavLink>
+      <NavLink to="/login" className="login-button">LogIn</NavLink>
       </article>
     </section> 
   )

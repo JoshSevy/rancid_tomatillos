@@ -133,6 +133,7 @@ class App extends Component {
           <Header
             isUserAuthenticated={this.state.isUserAuthenticated} 
             user={this.state.user}
+            logOut={this.logOut}
             /> 
           <Route exact path="/" render={() => 
             <CardContainer
@@ -180,5 +181,8 @@ export default App;
 
 App.propTypes = {
   movies: PropTypes.array,
-  user: PropTypes.object
+  user: PropTypes.object,
+  isUserAuthenticated: PropTypes.bool,
+  ratings: PropTypes.array,
+  selectedMovie: PropTypes.bool
 }
