@@ -4,34 +4,19 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { userApi } from '../apis/apis';
+
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isVisible: false,
       error: '',
       email: '',
-      password: ''
+      password: '',
+      user: {},
+      isUserAuthenticated: false
     };
-  }
-
-  fetchUserData(user) {
-    const url = 'https://rancid-tomatillos.herokuapp.com/api/v2/login';
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    fetch(url, options)
-      .then(response => response.json())
-      .then(userData => this.props.getUserData(userData.user))
-      .catch(error => {
-        console.log('invalid user', error)
-        this.setState({ error: 'Invalid email or password' })
-      })
   }
 
   userLoginInfo = (event) => {
@@ -40,18 +25,26 @@ class Login extends Component {
     this.setState({[formData]: formValue});
   }
 
-  loginUser = (event) => {
+  loginUser = async (event) => {
+    this.setState({user: {}, error: ''})
     event.preventDefault();
     const user = {
         email: this.state.email,
         password: this.state.password
       };
 
-    this.fetchUserData(user);
+    await userApi(user)
+    .then(response => this.setState({...response, email: '', password: ''}))
+    await this.validateLogin();
+    await this.props.getUserData(this.state.user, this.state.isUserAuthenticated)
+  }
+
+  validateLogin = async () => {
+    (this.state.error === '') ? this.setState({isUserAuthenticated: true}) : this.setState({isUserAuthenticated: false})
   }
 
   render() {
-      return (
+    return (
       <section className="Login">
       <Link to="/">
         <button 
@@ -76,14 +69,14 @@ class Login extends Component {
               onChange={this.userLoginInfo}
               name="password"
             />
-            <button
-              onClick={this.loginUser}
-            >
-            Submit
-            </button>
+              <button
+                onClick={this.loginUser}
+              >
+              Submit
+              </button>
           </form>
         </section>
-      )
+    )
   }
 }
 

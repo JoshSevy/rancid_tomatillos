@@ -16,11 +16,11 @@ class Movie extends Component {
   }
 
   handleChange(event) {
-    this.setState({sliderValue: event.target.value})
+    this.setState({ sliderValue: event.target.value })
   }
 
   movieValidation() {
-    const movie = this.props.user.ratings.find(rating => {
+    const movie = this.props.ratings.find(rating => {
       return this.props.movie.id === rating.movieId;
     })
     if (movie) {
@@ -32,13 +32,13 @@ class Movie extends Component {
 
   submitRating(event) {
     event.preventDefault();
-    const url = `https://rancid-tomatillos.herokuapp.com/api/v2/users/${this.props.user.id}/ratings`;
+   
     const rating = {
       movie_id: this.props.movie.id,
-        rating: Number(this.state.sliderValue)
+      rating: Number(this.state.sliderValue)
     }
     if (this.movieValidation()) {
-      this.props.postUserRating(this.props.user.id, url, rating);
+      this.props.postUserRating(this.props.user.id, rating);
     }
   }
 
@@ -60,19 +60,37 @@ class Movie extends Component {
           {this.props.user &&
             <form className="submit-rating">
               Submit new rating: <br />
-              <input type="range" name="rating-input" min="1" max="10" step="1" className="rating-input" onChange={this.handleChange}/>
-              <output for="rating-input" className="rating-output">{this.state.sliderValue} Tomatillos</output>
-              <button className="submit-rating" onClick={this.submitRating}>Submit Rating</button>
+              <input 
+                type="range" 
+                name="rating-input" 
+                min="1" max="10" 
+                step="1" 
+                className="rating-input" 
+                onChange={this.handleChange}
+              />
+              <output 
+                for="rating-input" 
+                className="rating-output"
+              >
+                {this.state.sliderValue}
+                 Tomatillos
+              </output>
+              <button 
+                className="submit-rating" 
+                onClick={this.submitRating}
+              >
+              Submit Rating
+              </button>
             </form>
           }
         </article>
         <Link to="/">
-        <button
-        className="back-button"
-        onClick={this.props.closeMovieDetail}
-        >
-          <span>&#215;</span>
-        </button>
+          <button
+            className="back-button"
+            onClick={this.props.closeMovieDetail}
+          >
+            <span>&#215;</span>
+          </button>
         </Link>
       </section>
     )
