@@ -7,12 +7,12 @@ export const movieApi = async (id = "") => {
     const movieFetch = await fetch(`${url}/movies/${id}`);
     const moviesData = await movieFetch.json();
     return moviesData;
-  } 
-  catch {
-    return {error: 'error'}
+
+  } catch(error) {
+
+    return error;
   }
 }
-
 
 export const userApi = async (user) => {
   const postStructure = {
@@ -26,31 +26,42 @@ export const userApi = async (user) => {
   try{
     const checkUser = await fetch(`${url}/login`, postStructure)
     const userData = await checkUser.json();
+
     return userData
-  } 
-  catch(error) {
+
+  } catch(error) {
+
     return error
   }
 }
-
 
 export const ratingsApi = async (id) => {
   try {
     const getRatingData = await fetch(`${url}/users/${id}/ratings`)
     const ratings = await getRatingData.json();
-    const data = ratings.ratings.map(rating => {
-      return {
-        id: rating.id,
-        userId: rating["user_id"],
-        movieId: rating["movie_id"],
-        rating: rating.rating,
-        createdAt: rating["created_at"],
-        updatedAt: rating["updated_at"]
-      }
-    })
-    return data;
+    
+    return ratings;
+
+    } catch(error) {
+    return error;
+  }
+}
+
+export const postRatingApi = async (id, rating) => {
+  console.log(JSON.stringify(rating));
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(rating),
+    headers: {
+      'Content-Type': 'application/json'
     }
-  catch(error) {
+  }
+
+  try {
+    await fetch(`${url}/users/${id}/ratings`, options)
+    
+  } catch(error) {
+    
     return error;
   }
 }

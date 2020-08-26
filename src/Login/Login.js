@@ -1,7 +1,7 @@
 import './Login.css'
 
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { userApi } from '../apis/apis';
@@ -36,15 +36,15 @@ class Login extends Component {
     await userApi(user)
     .then(response => this.setState({...response, email: '', password: ''}))
     await this.validateLogin();
-    await this.props.getUserData(this.state.user, this.state.userLoggedIn)
+    await this.props.getUserData(this.state.user, this.state.isUserAuthenticated)
   }
 
   validateLogin = async () => {
-    (this.state.error === '') ? this.setState({userLoggedIn: true}) : this.setState({userLoggedIn: false})
+    (this.state.error === '') ? this.setState({isUserAuthenticated: true}) : this.setState({isUserAuthenticated: false})
   }
 
   render() {
-      return (
+    return (
       <section className="Login">
       <Link to="/">
         <button 
@@ -76,7 +76,7 @@ class Login extends Component {
               </button>
           </form>
         </section>
-      )
+    )
   }
 }
 

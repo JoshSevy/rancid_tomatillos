@@ -32,13 +32,13 @@ class Movie extends Component {
 
   submitRating(event) {
     event.preventDefault();
-    const url = `https://rancid-tomatillos.herokuapp.com/api/v2/users/${this.props.user.id}/ratings`;
+   
     const rating = {
       movie_id: this.props.movie.id,
       rating: Number(this.state.sliderValue)
     }
     if (this.movieValidation()) {
-      this.props.postUserRating(this.props.user.id, url, rating);
+      this.props.postUserRating(this.props.user.id, rating);
     }
   }
 

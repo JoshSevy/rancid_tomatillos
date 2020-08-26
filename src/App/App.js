@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi, ratingsApi } from '../apis/apis';
+import { movieApi, ratingsApi, postRatingApi } from '../apis/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -21,7 +21,6 @@ class App extends Component {
       user: {},
       ratings: [],
       isUserAuthenticated: false
-
     };
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
@@ -46,38 +45,40 @@ class App extends Component {
     }
   };
 
-  componentDidUpdate() {
-    if (this.state.isUserAuthenticated && !this.state.ratings) {
-      const id = this.state.user.id;
-      this.getUserRatings(id);
-    }
-  }
-
   getUserRatings(id) {
-    ratingsApi(id).then(ratings => this.setState({ratings: ratings}))
-      .catch(error => console.log(error))
+    console.log(test)
+    ratingsApi(id)
+      .then(ratings => ratings.ratings.map(rating => {
+      return {
+        id: rating.id,
+        userId: rating["user_id"],
+        movieId: rating["movie_id"],
+        rating: rating.rating,
+        createdAt: rating["created_at"],
+        updatedAt: rating["updated_at"]
+      }
+    })).then(data => this.setState({ratings: data}));
+   
   }
 
-  postUserRating(id, url, rating) {
-    console.log(JSON.stringify(rating));
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(rating),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    fetch(url, options)
-      .then(response => {
-        console.log(response)
-        this.fetchUserRatings(id, url)
-      })
-      .catch(error => console.log(error))
+  postUserRating(id, rating) {
+    postRatingApi(id, rating).then(() => {
+      this.getUserRatings(id)
+    })
+    
   }
 
   componentDidMount() {
-    
     this.getMoviesData();
+  }
+
+  
+
+  componentDidUpdate() {
+    if (this.state.isUserAuthenticated && this.state.ratings.length === 0) {
+      const id = this.state.user.id;
+      this.getUserRatings(id);
+    }
   }
 
   getMoviesData() {
