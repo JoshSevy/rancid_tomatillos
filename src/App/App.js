@@ -30,6 +30,17 @@ class App extends Component {
     this.getUserData = this.getUserData.bind(this);
   }
 
+  componentDidMount() {
+    this.getMoviesData();
+  }
+
+  componentDidUpdate() {
+    if (this.state.isUserAuthenticated && this.state.ratings.length === 0) {
+      const id = this.state.user.id;
+      this.getUserRatings(id);
+    }
+  }
+
   getUserData(user, status) {
     this.setState({user: user, isUserAuthenticated: status})
   }
@@ -57,27 +68,12 @@ class App extends Component {
         updatedAt: rating["updated_at"]
       }
     })).then(data => this.setState({ratings: data}));
-   
   }
 
   postUserRating(id, rating) {
     postRatingApi(id, rating).then(() => {
       this.getUserRatings(id)
-    })
-    
-  }
-
-  componentDidMount() {
-    this.getMoviesData();
-  }
-
-  
-
-  componentDidUpdate() {
-    if (this.state.isUserAuthenticated && this.state.ratings.length === 0) {
-      const id = this.state.user.id;
-      this.getUserRatings(id);
-    }
+    }) 
   }
 
   getMoviesData() {
@@ -105,7 +101,7 @@ class App extends Component {
         id: data.movie.id,
         backdropUrl: data.movie["backdrop_path"],
         title: data.movie.title,
-        avgRating: data.movie["average_rating"],
+        avgRating: Math.round(data.movie["average_rating"]),
         releaseDate: data.movie["release_date"],
         description: data.movie.overview,
         genres: data.movie.genres,
@@ -147,43 +143,43 @@ class App extends Component {
             title='Welcome to Rancid Tomatillos'
             />
         }
-            <Route exact path="/" render={() => 
-              <CardContainer
-                movies={this.state.movies}
-                user={this.state.user}
-                renderSpecificMovie={this.renderSpecificMovie}
-                displayUserRatings={this.displayUserRatings}
-              />
-              }
+          <Route exact path="/" render={() => 
+            <CardContainer
+              movies={this.state.movies}
+              user={this.state.user}
+              renderSpecificMovie={this.renderSpecificMovie}
+              displayUserRatings={this.displayUserRatings}
             />
-            <Route exact path="/login" render={() => 
-              <Login
-                getUserData={this.getUserData}
-              />
-              }
+            }
+          />
+          <Route exact path="/login" render={() => 
+            <Login
+              getUserData={this.getUserData}
             />
-            <Route exact path="/login" render={() => {
-              return (
-                (this.state.isUserAuthenticated) ? 
-                  <Redirect to="/" />:
-                  <Redirect to="/login" />
-                )
-            }}
+            }
+          />
+          <Route exact path="/login" render={() => {
+            return (
+              (this.state.isUserAuthenticated) ? 
+                <Redirect to="/" />:
+                <Redirect to="/login" />
+              )
+          }}
+          />
+          <Route path="/movies/:id" render={() =>
+            <Movie
+              movie={this.state.selectedMovie}
+              user={this.state.user}
+              postUserRating={this.postUserRating}
+              ratings={this.state.ratings}
             />
-            <Route path="/movies/:id" render={() =>
-              <Movie
-                movie={this.state.selectedMovie}
-                user={this.state.user}
-                postUserRating={this.postUserRating}
-                ratings={this.state.ratings}
-              />
-              }
-            />
-            <Route exact path="/error" render={() => <ErrorPage />} />
-          {this.state.error &&
-            <ErrorPage errorCode={this.state.error}/>
-          }
-        </main>
+            }
+          />
+          <Route exact path="/error" render={() => <ErrorPage />} />
+        {this.state.error &&
+          <ErrorPage errorCode={this.state.error}/>
+        }
+      </main>
     );
   }
 }
