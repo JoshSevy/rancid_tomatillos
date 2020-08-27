@@ -32,14 +32,11 @@ class Movie extends Component {
 
   submitRating(event) {
     event.preventDefault();
-   
     const rating = {
       movie_id: this.props.movie.id,
       rating: Number(this.state.sliderValue)
     }
-    if (this.movieValidation()) {
-      this.props.postUserRating(this.props.user.id, rating);
-    }
+    this.props.postUserRating(this.props.user.id, rating, this.props.movie.id);
   }
 
   render() {
@@ -60,23 +57,23 @@ class Movie extends Component {
           {this.props.user &&
             <form className="submit-rating">
               Submit new rating: <br />
-              <input 
-                type="range" 
-                name="rating-input" 
-                min="1" max="10" 
-                step="1" 
-                className="rating-input" 
+              <input
+                type="range"
+                name="rating-input"
+                min="1" max="10"
+                step="1"
+                className="rating-input"
                 onChange={this.handleChange}
               />
-              <output 
-                for="rating-input" 
+              <output
+                for="rating-input"
                 className="rating-output"
               >
                 {this.state.sliderValue}
                  Tomatillos
               </output>
-              <button 
-                className="submit-rating" 
+              <button
+                className="submit-rating"
                 onClick={this.submitRating}
               >
               Submit Rating

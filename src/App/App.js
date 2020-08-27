@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi, ratingsApi, postRatingApi } from '../apis/apis';
+import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../apis/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -31,6 +31,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state.ratings);
     this.getMoviesData();
   }
 
@@ -70,10 +71,17 @@ class App extends Component {
     })).then(data => this.setState({ratings: data}));
   }
 
-  postUserRating(id, rating) {
+  postUserRating(id, rating, movieID) {
+    const existingRating = this.state.ratings.find(rating => {
+      return rating.movieId === movieID;
+      })
+    if (existingRating) {
+      const ratingID = existingRating.id;
+      deleteRatingApi(id, ratingID);
+    }
     postRatingApi(id, rating).then(() => {
-      this.getUserRatings(id)
-    }) 
+      this.getUserRatings(id);
+    })
   }
 
   getMoviesData() {
@@ -91,7 +99,7 @@ class App extends Component {
       .then(movies => this.setState({movies: movies}))
       .catch(error => {
         console.log(error);
-        
+
       });
   }
 
@@ -131,8 +139,8 @@ class App extends Component {
     return (
         <main className="App">
         {this.state.user.id ?
-          <Header 
-            buttonDisplay={this.logOut} 
+          <Header
+            buttonDisplay={this.logOut}
             user={this.state.user}
             buttonText='Log Out'
             title={`Welcome ${this.state.user.name}`}
@@ -143,7 +151,7 @@ class App extends Component {
             title='Welcome to Rancid Tomatillos'
             />
         }
-          <Route exact path="/" render={() => 
+          <Route exact path="/" render={() =>
             <CardContainer
               movies={this.state.movies}
               user={this.state.user}
@@ -152,7 +160,7 @@ class App extends Component {
             />
             }
           />
-          <Route exact path="/login" render={() => 
+          <Route exact path="/login" render={() =>
             <Login
               getUserData={this.getUserData}
             />
@@ -160,7 +168,7 @@ class App extends Component {
           />
           <Route exact path="/login" render={() => {
             return (
-              (this.state.isUserAuthenticated) ? 
+              (this.state.isUserAuthenticated) ?
                 <Redirect to="/" />:
                 <Redirect to="/login" />
               )
