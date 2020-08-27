@@ -1,8 +1,8 @@
 import './Header.css';
 
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { userApi } from '../helpers/apis';
+import { NavLink } from 'react-router-dom';
+
 
 const Header = (props) => {
   console.log(props)
@@ -28,7 +28,12 @@ const Header = (props) => {
         Welcome To Rancid Tomatillos
       </h2>
       <article className="header-login">
-      <NavLink to="/login" className="login-button">LogIn</NavLink>
+        <NavLink 
+          to="/login" 
+          className="login-button"
+        >
+          LogIn
+        </NavLink>
       </article>
     </section> 
   )
