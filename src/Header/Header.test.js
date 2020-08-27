@@ -1,41 +1,75 @@
 import Header from './Header';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter, Link } from 'react-router-dom';
 import {render, screen, fireEvent} from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import '@testing-library/jest-dom';
 
 
 describe('Header Component', () => {
 
-  it('should have correct content when rendered', () => {
+  it('should have correct content when user not logged in rendered', () => {
     const { getByRole } = render(
-      <BrowserRouter>
-        <Header title="Hello World" buttonText="Click Me"/>
-      </BrowserRouter>
+      <MemoryRouter>
+        <Header 
+          isUserAuthenticated={false}
+        />
+      </MemoryRouter>
     )
-    const headerText = getByRole("heading", {name: "Hello World"});
-    const buttonText = getByRole("button", {name: "Click Me"});
+    const headerText = getByRole("heading", {name: /welcome to rancid tomatillos/i});
+    const buttonText = getByRole("link", {name: "LogIn"});
+    expect(headerText).toBeInTheDocument();
+    expect(buttonText).toBeInTheDocument();
+  })
+
+  it('should have correct content when user islogged in rendered', () => {
+    const { getByRole } = render(
+      <MemoryRouter>
+        <Header
+          isUserAuthenticated={true}
+          user={{
+            name:'Ben',
+            id: 1,
+            email: 'megaman@awesome.com'
+          }}
+        />
+      </MemoryRouter>
+    )
+    const headerText = getByRole("heading", { name: /welcome ben !/i });
+    const buttonText = getByRole("link", { name: "LogOut" });
     expect(headerText).toBeInTheDocument();
     expect(buttonText).toBeInTheDocument();
   })
 
 
   //look into testing routes in jest functionality removed with the use of react router
-  it.skip('should have a button that can be clicked', () => {
-    const mockShowLogin = jest.fn();
-
+  it('should have a button that can be clicked', () => {
      render (
-      <BrowserRouter>
-        <Header 
-          buttonText="Click"
-          showLoginPage={mockShowLogin}
-        />
-      </BrowserRouter>
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
     )
 
-    const button = screen.getByRole('button');
+    const button = screen.getByRole('link', /login/i);
     fireEvent.click(button);
 
-    expect(mockShowLogin).toBeCalledTimes(1)
   })
+//may need to be tested in app to have abilitiy to switch pages
+  it("navigates to login page when you click the login navlink", async () => {
+    
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Header 
+          isUserAuthenticated={false}
+        />
+      </MemoryRouter>
+    );
+    act(() => {
+      const goLoginPage = document.querySelector('.login-button');
+      // Click it
+      goLoginPage.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+    expect(document.body.textContent).toBe('Welcome To Rancid TomatillosLogIn');
+  });
 })

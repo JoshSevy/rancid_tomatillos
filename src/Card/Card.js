@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Card(props) {
   const userRating = props.displayUserRatings(props.id);
-  console.log(props.displayUserRatings(props.id))
+  
   return (
     <Link to={`movies/${props.id}`}>
       <div className="Card-block">

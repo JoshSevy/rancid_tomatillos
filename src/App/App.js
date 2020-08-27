@@ -116,8 +116,8 @@ class App extends Component {
 
   displayUserRatings(id) {
     let movieRating;
-    if (!this.state.ratings) {
-      movieRating = "none";
+    if (this.state.ratings.length === 0) {
+      movieRating = 'none';
     } else {
       const movie = this.state.ratings.find(rating => {
         return id === rating.movieId;
@@ -139,6 +139,7 @@ class App extends Component {
             <CardContainer
               movies={this.state.movies}
               user={this.state.user}
+              isUserAuthenticated={this.state.isUserAuthenticated}
               renderSpecificMovie={this.renderSpecificMovie}
               displayUserRatings={this.displayUserRatings}
             />

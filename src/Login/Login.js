@@ -69,11 +69,11 @@ class Login extends Component {
               onChange={this.userLoginInfo}
               name="password"
             />
-              <button
-                onClick={this.loginUser}
-              >
-              Submit
-              </button>
+            <button
+              onClick={this.loginUser}
+            >
+            Submit
+            </button>
           </form>
         </section>
     )

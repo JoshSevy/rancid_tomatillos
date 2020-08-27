@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 
 
 const Header = (props) => {
-  console.log(props)
   return (
     (props.isUserAuthenticated) ? 
     <section className="header-container">
