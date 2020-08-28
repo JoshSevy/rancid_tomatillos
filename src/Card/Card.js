@@ -4,8 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Card(props) {
-  const userRating = props.displayUserRatings(props.id);
-  
+  const userRating = props.ratings.find(rating => props.id === rating.movieId)
   return (
     <Link to={`movies/${props.id}`}>
       <div className="Card-block">
@@ -18,12 +17,11 @@ function Card(props) {
           />
           <h3>{props.title}</h3>
           <p>Average Rating: {props.avgRating}</p>
-          {props.user.id &&
-            <section>
-              <p>User Rating: {userRating} {
-              }</p>
-            </section>
-          }
+            {userRating &&
+                <section>
+                  <p>{`Your Rating: ${userRating.rating}`}</p>
+                </section>
+            } 
         </article>
       </div>
     </Link>

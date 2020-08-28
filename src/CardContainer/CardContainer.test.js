@@ -2,7 +2,7 @@ import CardContainer from './CardContainer';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('CardContainer Component', () => {
   
@@ -11,9 +11,10 @@ describe('CardContainer Component', () => {
     const mockRenderSpecificMovie = jest.fn();
 
     const { getByRole } = render(
-      <BrowserRouter>
+      <MemoryRouter>
         <CardContainer
           onClick={mockRenderSpecificMovie}
+          ratings={[]}
           movies={[
             {
               poster: "image-file.jpg",
@@ -24,7 +25,7 @@ describe('CardContainer Component', () => {
             }
           ]}
         />
-      </BrowserRouter>
+      </MemoryRouter>
     );
     
   const title = getByRole("heading", /Inception/i);

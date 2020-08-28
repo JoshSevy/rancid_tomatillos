@@ -62,9 +62,6 @@ describe('App Component', () => {
       </MemoryRouter>
     )
 
-    screen.debug()
-
-    
     expect(movieApi).toBeCalledTimes(2);
   })
 
@@ -88,8 +85,6 @@ describe('App Component', () => {
         <App />
       </MemoryRouter>
     )
-
-    screen.debug()
 
     const movieCloseButton = screen.getByText(/submit rating/i)
     expect(movieCloseButton).toBeInTheDocument()

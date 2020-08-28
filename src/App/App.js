@@ -25,7 +25,6 @@ class App extends Component {
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
     this.logOut = this.logOut.bind(this);
-    this.displayUserRatings = this.displayUserRatings.bind(this);
     this.postUserRating = this.postUserRating.bind(this);
     this.getUserData = this.getUserData.bind(this);
   }
@@ -67,7 +66,9 @@ class App extends Component {
         createdAt: rating["created_at"],
         updatedAt: rating["updated_at"]
       }
-    })).then(data => this.setState({ratings: data}));
+    }))
+    .then(data => this.setState({ratings: data}))
+    .catch(error => this.setState({error: 'Something went wrong on our end'}))
   }
 
   postUserRating(id, rating) {
@@ -114,18 +115,18 @@ class App extends Component {
     })
   }
 
-  displayUserRatings(id) {
-    let movieRating;
-    if (this.state.ratings.length === 0) {
-      movieRating = 'none';
-    } else {
-      const movie = this.state.ratings.find(rating => {
-        return id === rating.movieId;
-      })
-      movieRating = movie ? movie.rating : "Rate Me";
-    }
-    return movieRating;
-  }
+  // displayUserRatings(id) {
+  //   let movieRating;
+  //   if (this.state.ratings.length === 0) {
+  //     movieRating = 'none';
+  //   } else {
+  //     const movie = this.state.ratings.find(rating => {
+  //       return id === rating.movieId;
+  //     })
+  //     movieRating = movie ? movie.rating : "Rate Me";
+  //   }
+  //   return movieRating;
+  // }
 
   render() {
     return (
@@ -139,6 +140,7 @@ class App extends Component {
             <CardContainer
               movies={this.state.movies}
               user={this.state.user}
+              ratings={this.state.ratings}
               isUserAuthenticated={this.state.isUserAuthenticated}
               renderSpecificMovie={this.renderSpecificMovie}
               displayUserRatings={this.displayUserRatings}
