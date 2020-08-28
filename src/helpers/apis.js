@@ -39,7 +39,7 @@ export const ratingsApi = async (id) => {
   try {
     const getRatingData = await fetch(`${url}/users/${id}/ratings`)
     const ratings = await getRatingData.json();
-    
+
     return ratings;
 
     } catch(error) {
@@ -48,7 +48,6 @@ export const ratingsApi = async (id) => {
 }
 
 export const postRatingApi = async (id, rating) => {
-  console.log(JSON.stringify(rating));
   const options = {
     method: 'POST',
     body: JSON.stringify(rating),
@@ -59,16 +58,22 @@ export const postRatingApi = async (id, rating) => {
 
   try {
     await fetch(`${url}/users/${id}/ratings`, options)
-    
+
   } catch(error) {
-    
+
     return error;
   }
 }
 
-export const deleteRating = async (id, ratingID) => {
+
+  export const deleteRatingApi = async (id, ratingID) => {
   try {
-    await fetch(`${url}/users/${id}/ratings/${ratingID}`)
+    await fetch(`${url}/users/${id}/ratings/${ratingID}`,
+      {
+        method : 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+      }
+    )
   } catch(error) {
     console.log(error);
   }

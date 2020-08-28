@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi, ratingsApi, postRatingApi } from '../helpers/apis';
+import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -71,10 +71,17 @@ class App extends Component {
     .catch(error => this.setState({error: 'Something went wrong on our end'}))
   }
 
-  postUserRating(id, rating) {
+  postUserRating(id, rating, movieID) {
+    const existingRating = this.state.ratings.find(rating => {
+      return rating.movieId === movieID;
+      })
+    if (existingRating) {
+      const ratingID = existingRating.id;
+      deleteRatingApi(id, ratingID);
+    }
     postRatingApi(id, rating).then(() => {
-      this.getUserRatings(id)
-    }) 
+      this.getUserRatings(id);
+    })
   }
 
   getMoviesData() {
@@ -92,7 +99,7 @@ class App extends Component {
       .then(movies => this.setState({movies: movies}))
       .catch(error => {
         console.log(error);
-        
+
       });
   }
 
@@ -147,7 +154,7 @@ class App extends Component {
             />
             }
           />
-          <Route exact path="/login" render={() => 
+          <Route exact path="/login" render={() =>
             <Login
               getUserData={this.getUserData}
             />
@@ -155,7 +162,7 @@ class App extends Component {
           />
           <Route exact path="/login" render={() => {
             return (
-              (this.state.isUserAuthenticated) ? 
+              (this.state.isUserAuthenticated) ?
                 <Redirect to="/" />:
                 <Redirect to="/login" />
               )
