@@ -1,29 +1,45 @@
 import Login from './Login';
 import React from 'react';
-import { render, screen, getByPlaceholderText, fireEvent } from '@testing-library/react';
+
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+
+jest.mock('../helpers/apis')
+
+
+import { userApi } from '../helpers/apis';
+
 
 describe('Login Component', () => {
-  let inputEmail, inputPassword, mockLogIn;
+  let inputEmail, inputPassword, mockLogin,getUserData;
   beforeEach(() => {
 
-    mockLogIn = jest.fn();
+    userApi.mockResolvedValue(() => {
+      return Promise.resolve({
+        user: {
+          email: `megaman@games.com`,
+          id: 3,
+          name: `MegaMan`
+        }
+      })
+    })
+    
+   
 
     render(
-      <BrowserRouter>
-        <Login 
-          onClick={mockLogIn}
-        />
-      </BrowserRouter>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     )
 
     inputEmail = screen.getByPlaceholderText(/user email/i);
     inputPassword = screen.getByPlaceholderText(/user password/i);
 
+    mockLogin = jest.fn();
     
   })
-  it('should render App correctly', () => {
+  it('should render Login component correctly', () => {
     const headerText = screen.getByText(/Rancid Tomatillos/i);
     const headerLoginText = screen.getByText(/login/i)
     
@@ -47,16 +63,12 @@ it('should check input fields', () => {
 //Test failing still needs to be added need to look into listener and might have to mock some functionality to test.
 it.skip('should have a button that submits input values', () => {
 
-  const loginUser = jest.fn()
 
   const buttonSubmit = screen.getByText(/submit/i);
   
-
-
-  fireEvent.change(inputEmail, {target: {value: /ben@email.com/i}});
-  fireEvent.change(inputPassword, {target: {value: /128password/i}})
+  fireEvent.change(inputEmail, {target: {value: "ben@email.com"}});
+  fireEvent.change(inputPassword, {target: {value: "128password"}})
   fireEvent.click(buttonSubmit);
-
 
   expect(loginUser).toBeCalledTimes(1);
     

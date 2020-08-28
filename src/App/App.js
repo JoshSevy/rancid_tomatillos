@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../apis/apis';
+import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -25,13 +25,11 @@ class App extends Component {
 
     this.renderSpecificMovie = this.renderSpecificMovie.bind(this);
     this.logOut = this.logOut.bind(this);
-    this.displayUserRatings = this.displayUserRatings.bind(this);
     this.postUserRating = this.postUserRating.bind(this);
     this.getUserData = this.getUserData.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.state.ratings);
     this.getMoviesData();
   }
 
@@ -68,7 +66,9 @@ class App extends Component {
         createdAt: rating["created_at"],
         updatedAt: rating["updated_at"]
       }
-    })).then(data => this.setState({ratings: data}));
+    }))
+    .then(data => this.setState({ratings: data}))
+    .catch(error => this.setState({error: 'Something went wrong on our end'}))
   }
 
   postUserRating(id, rating, movieID) {
@@ -122,39 +122,33 @@ class App extends Component {
     })
   }
 
-  displayUserRatings(id) {
-    let movieRating;
-    if (!this.state.ratings) {
-      movieRating = "none";
-    } else {
-      const movie = this.state.ratings.find(rating => {
-        return id === rating.movieId;
-      })
-      movieRating = movie ? movie.rating : "none";
-    }
-    return movieRating;
-  }
+  // displayUserRatings(id) {
+  //   let movieRating;
+  //   if (this.state.ratings.length === 0) {
+  //     movieRating = 'none';
+  //   } else {
+  //     const movie = this.state.ratings.find(rating => {
+  //       return id === rating.movieId;
+  //     })
+  //     movieRating = movie ? movie.rating : "Rate Me";
+  //   }
+  //   return movieRating;
+  // }
 
   render() {
     return (
         <main className="App">
-        {this.state.user.id ?
           <Header
-            buttonDisplay={this.logOut}
+            isUserAuthenticated={this.state.isUserAuthenticated} 
             user={this.state.user}
-            buttonText='Log Out'
-            title={`Welcome ${this.state.user.name}`}
-            /> :
-          <Header
-            buttonDisplay={this.showLoginPage}
-            buttonText='Log In'
-            title='Welcome to Rancid Tomatillos'
-            />
-        }
-          <Route exact path="/" render={() =>
+            logOut={this.logOut}
+            /> 
+          <Route exact path="/" render={() => 
             <CardContainer
               movies={this.state.movies}
               user={this.state.user}
+              ratings={this.state.ratings}
+              isUserAuthenticated={this.state.isUserAuthenticated}
               renderSpecificMovie={this.renderSpecificMovie}
               displayUserRatings={this.displayUserRatings}
             />
@@ -197,5 +191,8 @@ export default App;
 
 App.propTypes = {
   movies: PropTypes.array,
-  user: PropTypes.object
+  user: PropTypes.object,
+  isUserAuthenticated: PropTypes.bool,
+  ratings: PropTypes.array,
+  selectedMovie: PropTypes.bool
 }

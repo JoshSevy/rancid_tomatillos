@@ -2,14 +2,14 @@ import Movie from './Movie';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 
 describe('Movie Component', () => {
   it('should render Movie Component correctly', () => {
 
     const {getByRole} = render (
-      <BrowserRouter>
+      <MemoryRouter>
         <Movie
           movie={[{
             title: "Inception",
@@ -20,7 +20,7 @@ describe('Movie Component', () => {
             genres: ['action', 'drama']
           }]}
         />
-      </BrowserRouter>
+      </MemoryRouter>
       )
 
 

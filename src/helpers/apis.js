@@ -78,3 +78,4 @@ export const postRatingApi = async (id, rating) => {
     console.log(error);
   }
 }
+

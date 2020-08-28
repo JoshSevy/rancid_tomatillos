@@ -82,8 +82,6 @@ npm install
 npm start
 ```
 
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
