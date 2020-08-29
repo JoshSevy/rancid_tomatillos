@@ -1,16 +1,24 @@
+import Comment from '../Comment/Comment'
+
 import React from 'react';
 
 
-const CommentList = (props) => {
-  props.comments.map(comment => {
+const CommentList = ({comments, user}) => {
+  if (comments === []) {
+    comments.map(comment => {
+      return (
+        <Comment 
+          comment={comment}
+          user={user}
+        />
+      )
+    })
+  } else {
     return (
-      <article>
-        <h3>{props.comment.title}</h3>
-        <p>{props.user.name}</p>
-        <p>{props.comment.summary}</p>
-        <p>{props.comment.date}</p>
+      <article className="comment-container">
+        <h3 className="comment-none">No Comments Yet!</h3>
       </article>
     )
-  })
+  }
 }
 export default CommentList;

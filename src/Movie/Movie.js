@@ -1,5 +1,7 @@
 import './Movie.css';
 
+import CommentForm from '../CommentForm/CommentForm'
+
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 
@@ -85,8 +87,9 @@ class Movie extends Component {
             <span>&#215;</span>
           </button>
         </Link>
+        <CommentForm />
       </section>
-      <CommentForm />
+      
     )
   }
 }
