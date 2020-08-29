@@ -46,14 +46,10 @@ class Movie extends Component {
         style={{backgroundImage: `url(${this.props.movie.backdropUrl})`}}>
         <article className="movie-description">
           <h3>{this.props.movie.title}</h3>
-          <p className="description">
-            {this.props.movie.description}
-          </p>
-          <p>
-            Genres: {this.props.movie.genres} <br />
-            Length: {this.props.movie.runtime} Minutes <br />
-            Average Rating: {this.props.movie.avgRating} Tomatillos
-          </p>
+          <p className="description">{this.props.movie.description}</p>
+          <p>Genres: {this.props.movie.genres}</p>
+          <p>Length: {this.props.movie.runtime} Minutes</p>
+          <p>Average Rating: {this.props.movie.avgRating} Tomatillos</p>
           {this.props.user &&
             <form className="submit-rating">
               Submit new rating: <br />
@@ -90,6 +86,7 @@ class Movie extends Component {
           </button>
         </Link>
       </section>
+      <CommentForm />
     )
   }
 }

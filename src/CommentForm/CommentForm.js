@@ -9,20 +9,24 @@ class CommentForm extends Component {
     }
   }
 
-  onSubmit(){
+  onSubmit() {
   }
 
   render() {
     return (
       <section>
-      <input type="text-box" placeholder="input comment here" />
-
-
+        <form>
+          <h2>How was the movie?</h2>
+          <label for="title">Comment Title:</label>
+          <input type="text" placeholder='Comment Title' />
+          <label for="comment">Leave Comment Here:</label>
+          <input type="text-box" placeholder="input comment here" />
+          <button>Submit</button>
+        </form>
+        <CommentList />
       </section>
     )
   }
-  
 }
-
 
 export default CommentForm; 
