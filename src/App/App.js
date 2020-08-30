@@ -3,6 +3,7 @@ import Movie from '../Movie/Movie';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
+import Favorites from '../Favorites/Favorites';
 
 import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../helpers/apis';
 
@@ -139,11 +140,11 @@ class App extends Component {
     return (
         <main className="App">
           <Header
-            isUserAuthenticated={this.state.isUserAuthenticated} 
+            isUserAuthenticated={this.state.isUserAuthenticated}
             user={this.state.user}
             logOut={this.logOut}
-            /> 
-          <Route exact path="/" render={() => 
+            />
+          <Route exact path="/" render={() =>
             <CardContainer
               movies={this.state.movies}
               user={this.state.user}
@@ -168,14 +169,24 @@ class App extends Component {
               )
           }}
           />
-          <Route path="/movies/:id" render={() =>
-            <Movie
-              movie={this.state.selectedMovie}
-              user={this.state.user}
-              postUserRating={this.postUserRating}
-              ratings={this.state.ratings}
-            />
+          <Route path="/movies/:id" render={() => {
+            return (
+              this.state.selectedMovie ? (
+                <Movie
+                  movie={this.state.selectedMovie}
+                  user={this.state.user}
+                  postUserRating={this.postUserRating}
+                  ratings={this.state.ratings}
+                />
+              )
+              :
+              <Redirect to="/" />
+          )
             }
+            }
+          />
+          <Route exact path="/favorites" render={() =>
+          <Favorites />}
           />
           <Route exact path="/error" render={() => <ErrorPage />} />
         {this.state.error &&
