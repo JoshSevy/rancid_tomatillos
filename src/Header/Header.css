@@ -13,7 +13,7 @@
   text-shadow: 5px 5px 6px black;
 }
 
-.login-button { 
+.login-button {
   position: absolute;
   right: 10px;
   top: 30px;
@@ -25,6 +25,14 @@
   text-decoration: none;
 }
 
-
-
-
+.favorites-button {
+  position: absolute;
+  left: 10px;
+  top: 30px;
+  width: 5rem;
+  background-color: antiquewhite;
+  color: black;
+  border: 1px solid black;
+  border-radius: 40px;
+  text-decoration: none;
+}

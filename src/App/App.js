@@ -185,8 +185,9 @@ class App extends Component {
             }
             }
           />
-          <Route exact path="/favorites" render={() =>
-          <Favorites />}
+          <Route exact path="/favorites" render={() => {
+            return this.state.user.id ? <Favorites /> : <Redirect to="/" />
+          }}
           />
           <Route exact path="/error" render={() => <ErrorPage />} />
         {this.state.error &&
