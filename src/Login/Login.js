@@ -37,6 +37,7 @@ class Login extends Component {
     .then(response => this.setState({...response, email: '', password: ''}))
     await this.validateLogin();
     await this.props.getUserData(this.state.user, this.state.isUserAuthenticated)
+    await this.props.getFavoritesData()
   }
 
   validateLogin = async () => {
@@ -47,7 +48,7 @@ class Login extends Component {
     return (
       <section className="Login">
       <Link to="/">
-        <button 
+        <button
           className="close-login-form"
         >
           <span>&#215;</span>

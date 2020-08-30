@@ -5,7 +5,7 @@ import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Favorites from '../Favorites/Favorites';
 
-import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../helpers/apis';
+import { movieApi, ratingsApi, postRatingApi, deleteRatingApi, favoritesApi } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -21,6 +21,7 @@ class App extends Component {
       selectedMovie: false,
       user: {},
       ratings: [],
+      favorites: [],
       isUserAuthenticated: false
     };
 
@@ -28,6 +29,7 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
     this.postUserRating = this.postUserRating.bind(this);
     this.getUserData = this.getUserData.bind(this);
+    this.getFavoritesData = this.getFavoritesData.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +48,7 @@ class App extends Component {
   }
 
   logOut() {
-    this.setState({user: {}, isUserAuthenticated: false});
+    this.setState({user: {}, favorites: [], isUserAuthenticated: false});
   }
 
   renderSpecificMovie(event) {
@@ -104,6 +106,21 @@ class App extends Component {
       });
   }
 
+  getFavoritesData() {
+    favoritesApi()
+      .then(response => {
+        return response.map(movieId => {
+          return this.state.movies.find(movie => {
+            return movie.id === movieId;
+          })
+        })
+      })
+      .then(favoriteMovies => this.setState({favorites: favoriteMovies}))
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
   getSpecificMovieData(id) {
     movieApi(id)
       .then(data => data.movie = {
@@ -117,10 +134,12 @@ class App extends Component {
         runtime: data.movie.runtime
       }
     )
-    .then(movie => this.setState({selectedMovie: movie}))
-    .catch(error => {
-      this.setState({selectedMovie: false, error: true})
-    })
+      .then(movie => {
+        console.log(movie)
+        this.setState({selectedMovie: movie})})
+      .catch(error => {
+        this.setState({selectedMovie: false, error: true})
+      })
   }
 
   // displayUserRatings(id) {
@@ -149,6 +168,7 @@ class App extends Component {
               movies={this.state.movies}
               user={this.state.user}
               ratings={this.state.ratings}
+              favorites={this.state.favorites}
               isUserAuthenticated={this.state.isUserAuthenticated}
               renderSpecificMovie={this.renderSpecificMovie}
               displayUserRatings={this.displayUserRatings}
@@ -158,6 +178,7 @@ class App extends Component {
           <Route exact path="/login" render={() =>
             <Login
               getUserData={this.getUserData}
+              getFavoritesData={this.getFavoritesData}
             />
             }
           />
@@ -180,13 +201,23 @@ class App extends Component {
                 />
               )
               :
-              <Redirect to="/" />
+              (<h4>No movie selected. Please return to the homepage.</h4>)
           )
             }
             }
           />
           <Route exact path="/favorites" render={() => {
-            return this.state.user.id ? <Favorites /> : <Redirect to="/" />
+            return this.state.user.id ?
+              <Favorites
+                favorites={this.state.favorites}
+                user={this.state.user}
+                ratings={this.state.ratings}
+                isUserAuthenticated={this.state.isUserAuthenticated}
+                renderSpecificMovie={this.renderSpecificMovie}
+                displayUserRatings={this.displayUserRatings}
+              />
+              :
+              <Redirect to="/" />
           }}
           />
           <Route exact path="/error" render={() => <ErrorPage />} />

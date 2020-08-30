@@ -69,8 +69,7 @@ class Movie extends Component {
                 for="rating-input"
                 className="rating-output"
               >
-                {this.state.sliderValue}
-                 Tomatillos
+                {this.state.sliderValue} Tomatillos<br />
               </output>
               <button
                 className="submit-rating"

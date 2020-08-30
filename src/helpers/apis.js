@@ -1,5 +1,6 @@
 
 const url = 'https://rancid-tomatillos.herokuapp.com/api/v2';
+const favoritesUrl = 'http://localhost:3001/api/v1/favorites';
 
 
 export const movieApi = async (id = "") => {
@@ -79,3 +80,12 @@ export const postRatingApi = async (id, rating) => {
   }
 }
 
+  export const favoritesApi = async () => {
+    try {
+      const getFavoritesData = await fetch(favoritesUrl);
+      const favorites = await getFavoritesData.json();
+      return favorites;
+    } catch(error) {
+      console.log(error);
+    }
+  }

@@ -11,6 +11,11 @@ function Card(props) {
         <article
           className="Card"
           id={props.id}>
+          <button
+            className="favorite-movie-button"
+            onClick={props.favoriteMovie}>
+            {props.isFavorited ? "Unfavorite" : "Favorite"}
+          </button>
           <img
             src={props.poster}
             alt={props.description}
@@ -21,7 +26,7 @@ function Card(props) {
                 <section>
                   <p>{`Your Rating: ${userRating.rating}`}</p>
                 </section>
-            } 
+            }
         </article>
       </div>
     </Link>
