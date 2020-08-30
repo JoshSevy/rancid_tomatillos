@@ -1,8 +1,10 @@
 import React from 'react';
 
+import './Comment.css'
+
 const Comment = (props) => {
   return (
-    <section>
+    <section className="comment-container">
       <h1>{props.movie.title}</h1>
       <article>
       <p>{props.user.name}</p>

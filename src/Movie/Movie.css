@@ -1,36 +1,66 @@
 .movie-page {
-  width: 100%;
-  height: 95vh;
-  color: white;
-  text-align: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 2rem;
+}
+
+.movie-title {
+  font-size: 3em;
+  grid-column: 2/10; 
+  grid-row: 3;
 }
 
 .movie-description {
   background-color: rgba(0, 0, 0, 0.7);
-  height: 95%;
+  height: 100vh;
+  width: 100%;
+  color: white;
+  
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
 }
 
-.movie-description > h3{
-  font-size: 3rem;
-  margin-bottom: 8vh;
+.movie-genre {
+  grid-column: 1/4;
+  grid-row: 2;
+  text-align: left;
+  padding: 1rem;
 }
 
-.movie-description > p {
-  font-size: 1.2rem;
-  padding: 2rem;
-  line-height: 1.2;
-  letter-spacing: .8px;
+.movie-length {
+  font-size: 1rem;
+  grid-column: 8/11;
+  grid-row: 2;
+  text-align: right;
+  padding: 1rem;
 }
 
 .back-button {
-  position: absolute;
-  top: 95px;
-  right: 45px;
   width: 20px;
   height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 65px;
+}
+
+.description {
+  grid-row: 6;
+  grid-column: 3/9;
+}
+
+.avg-rating {
+  font-size: 1rem;
+  grid-row: 10;
+  grid-column: 1/3;
+  text-align: left;
+  padding: 1rem;
+}
+
+.add-rating {
+  grid-column: 8/11;
+  grid-row: 9/11;
+  display: grid;
+  padding: 2rem;
 }
 

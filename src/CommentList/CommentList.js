@@ -1,5 +1,7 @@
 import Comment from '../Comment/Comment'
 
+import './CommentList.css'
+
 import React from 'react';
 
 

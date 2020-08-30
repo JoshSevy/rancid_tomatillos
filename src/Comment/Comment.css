@@ -1,0 +1,8 @@
+.comment-container {
+  grid-column: 5/11;
+  grid-row: 1;
+  display: flex;
+  flex: auto;
+  align-content: center;
+  justify-content: center;
+}
