@@ -122,19 +122,6 @@ class App extends Component {
     })
   }
 
-  // displayUserRatings(id) {
-  //   let movieRating;
-  //   if (this.state.ratings.length === 0) {
-  //     movieRating = 'none';
-  //   } else {
-  //     const movie = this.state.ratings.find(rating => {
-  //       return id === rating.movieId;
-  //     })
-  //     movieRating = movie ? movie.rating : "Rate Me";
-  //   }
-  //   return movieRating;
-  // }
-
   render() {
     return (
         <main className="App">

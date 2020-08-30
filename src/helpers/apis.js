@@ -79,3 +79,15 @@ export const postRatingApi = async (id, rating) => {
   }
 }
 
+
+export const getMovieComments = async (movieID) => {
+  //const url = http//:localhost:3001/api/v1/movies/:id/comments
+  try {
+    const getComments = await fetch(`${url}/movies/${movieID}/comments`)
+    const comments = await getComments.json()
+    return comments.comments;
+  } catch(error) {
+    return error;
+  }
+}
+

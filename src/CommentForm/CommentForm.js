@@ -3,6 +3,7 @@ import CommentList from '../CommentList/CommentList'
 import './CommentForm.css'
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 
 class CommentForm extends Component {
@@ -11,6 +12,7 @@ class CommentForm extends Component {
     this.state={
     comments: [],
     user: {},
+    isAuthenticated: false
     }
   }
 
@@ -20,6 +22,8 @@ class CommentForm extends Component {
   render() {
     return (
       <section className="comment-form-container">
+      {
+        (this.state.isAuthenticated) ? 
         <form className="comment-form">
           <h2 className="comment-message">How was {this.props.movie.title}?</h2>
           <label for="title">Comment Title:</label>
@@ -33,7 +37,16 @@ class CommentForm extends Component {
             <button className="comment-post">Post</button>
             <button className="comment-cancel">Cancel</button>
           </article>
-        </form>
+        </form> :
+        <article className="login-prompt">
+          <h3>Login to Comment on {this.props.movie.title}</h3>
+          <Link 
+            to="/login" className="form-login-button"
+          >
+            Login
+          </Link>
+        </article>
+        }
         <CommentList 
           comments={this.state.comments} 
           user={this.state.user}
