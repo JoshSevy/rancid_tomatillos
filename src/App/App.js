@@ -161,6 +161,7 @@ class App extends Component {
               user={this.state.user}
               postUserRating={this.postUserRating}
               ratings={this.state.ratings}
+              isUserAuthenticated={this.state.isUserAuthenticated}
             />
             }
           />

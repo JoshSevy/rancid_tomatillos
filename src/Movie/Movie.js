@@ -89,6 +89,7 @@ class Movie extends Component {
         <CommentForm 
           user={this.props.user}
           movie={this.props.movie}
+          isUserAuthenticated={this.props.isUserAuthenticated}
         />
       </section>
     )

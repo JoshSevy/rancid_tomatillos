@@ -80,14 +80,29 @@ export const postRatingApi = async (id, rating) => {
 }
 
 
-export const getMovieComments = async (movieID) => {
-  //const url = http//:localhost:3001/api/v1/movies/:id/comments
+export const getComments = async (movieID) => {
   try {
-    const getComments = await fetch(`${url}/movies/${movieID}/comments`)
+    const getComments = await fetch(`https//:localhost:3001/api/v1/movies/${movieID}/comments`)
     const comments = await getComments.json()
     return comments.comments;
   } catch(error) {
     return error;
+  }
+}
+
+export const postComment = async (movieID, comment) => {
+  const postStructure = {
+    method: 'POST',
+    body: JSON.stringify(comment),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+    return await fetch(`https//:localhost:3001/api/v1/movies/${movieID}/comments`, postStructure)
+  } catch(error) {
+    throw new Error('Something went wrong, try again')
   }
 }
 
