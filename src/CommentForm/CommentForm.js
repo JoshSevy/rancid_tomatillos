@@ -18,6 +18,7 @@ class CommentForm extends Component {
     }
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onCancel= this.onCancel.bind(this)
   }
 
   commentFieldOutput = (e) => {
@@ -26,31 +27,23 @@ class CommentForm extends Component {
     this.setState({[formData]: formValue });
   }
 
-  // getMovieComments = () => {
-  //   getComments(this.props.movie.id)
-  //   .then(comments => this.setState(comments))
-    
-  // }
-
   postMovieComment = async (movieID, postData) => {
     postComment(movieID, postData)
-  
+    this.props.getComments(movieID)
+    this.setState({commentTitle: "", commentSummary: ""})
   }
 
   onSubmit(e) {
     e.preventDefault();
     const title = this.state.commentTitle;
     const summary = this.state.commentSummary;
-    const userComment = `${title.toUpperCase()} ${summary}`
+    const userComment = `${title.toUpperCase()}---${summary}`
     const comment = {comment: userComment, author: this.props.user.name}
-    this.postMovieComment(this.props.movie.id, comment)
-    
-
-    console.log(userComment)
+    this.postMovieComment(this.props.movie.id, comment) 
   }
 
   onCancel(e) {
-    e.preventDefault();
+    e.preventDefault()
     this.setState({commentTitle: "", commentSummary: ""})
   }
 
@@ -61,7 +54,7 @@ class CommentForm extends Component {
         (this.props.isUserAuthenticated) ? 
         <form 
           className="comment-form"
-          ref={(el) => this.onCancel = el}
+          
         >
           <h2 className="comment-message">How was {this.props.movie.title}?</h2>
           <label for="title">Comment Title:</label>

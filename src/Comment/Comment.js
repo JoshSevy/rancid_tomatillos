@@ -4,10 +4,10 @@ import './Comment.css'
 
 const Comment = (props) => {
   return (
-    <article>
-      <p>{props.comment.author}</p>
-      <p>{props.comment.comment}</p>
-      <p>placeholder for upcoming data</p>
+    <article className="comment-card">
+      <p className="comment">{props.comment.comment}</p>
+      <p className="comment-author">Author: {props.comment.author}</p>
+      
     </article>
   )
 }

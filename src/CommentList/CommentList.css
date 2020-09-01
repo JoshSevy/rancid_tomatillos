@@ -1,4 +1,14 @@
-.comment-none {
+.comment-none-container {
   display: flex;
+  grid-column: 5/11;
+  align-self: center;
+  justify-content: center;
+}
+
+.comment-container {
+  overflow: scroll;
+  height: 100%;
+  grid-column: 5/11;
+  grid-row: 1/10;
   align-self: center;
 }

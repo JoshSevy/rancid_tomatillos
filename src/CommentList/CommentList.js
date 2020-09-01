@@ -20,7 +20,7 @@ const CommentList = ({comments, movie}) => {
     )
   } else {
     return (
-      <article className="comment-container">
+      <article className="comment-none-container">
         <h3 className="comment-none">No Comments Yet!</h3>
       </article>
     )
