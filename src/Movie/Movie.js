@@ -9,7 +9,9 @@ class Movie extends Component {
 
     this.state = {
       sliderValue: "10",
-      isFavorited: this.props.favorites.includes(this.props.movie) ? true : false
+      isFavorited: this.props.favorites.find(favorite => {
+        return favorite.id === this.props.movie.id;
+      })
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,6 +23,10 @@ class Movie extends Component {
     if(!this.props.movieValidation) {
       return (<Redirect to="/" />)
     }
+    this.setState({isFavorited: this.props.favorites.find(favorite => {
+      console.log(this.props.movie)
+      return favorite.id === this.props.movie.id;
+    })})
   }
 
   clickFavoriteButton() {
@@ -53,6 +59,9 @@ class Movie extends Component {
   }
 
   render() {
+    const userRating = this.props.ratings.find(rating => {
+      return this.props.movie.id === rating.movieId;
+    })
     return (
       <section
         className="movie-page"
@@ -67,6 +76,11 @@ class Movie extends Component {
             Length: {this.props.movie.runtime} Minutes <br />
             Average Rating: {this.props.movie.avgRating} Tomatillos
           </p>
+          {userRating &&
+            <section>
+              <p>{`Your Rating: ${userRating.rating}`}</p>
+            </section>
+          }
           {this.props.user.id &&
             <div>
               <button

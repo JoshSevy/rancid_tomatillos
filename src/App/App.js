@@ -154,12 +154,7 @@ class App extends Component {
 
   favoriteOrUnfavoriteMovie(id) {
     postFavoriteApi(id)
-      .then(data => {
-        this.setState({favorites: this.state.favorites.filter(favorite => {
-          return favorite === true;
-        })})
-      })
-      .catch(error => console.log(error));
+    this.getFavoritesData()
   }
 
   // movieValidation() {
@@ -226,6 +221,7 @@ class App extends Component {
                   postUserRating={this.postUserRating}
                   ratings={this.state.ratings}
                   favorites={this.state.favorites}
+                  closeMovieDetail={this.closeMovieDetail}
                 />
               )
               :
@@ -249,6 +245,7 @@ class App extends Component {
           <Route exact path="/favorites" render={() => {
             return this.state.user.id ?
               <Favorites
+                favoriteOrUnfavoriteMovie={this.favoriteOrUnfavoriteMovie}
                 favorites={this.state.favorites}
                 user={this.state.user}
                 ratings={this.state.ratings}

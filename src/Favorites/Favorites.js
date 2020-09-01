@@ -6,12 +6,14 @@ function Favorites(props) {
   return (
     <CardContainer
       favoriteOrUnfavoriteMovie={props.favoriteOrUnfavoriteMovie}
+      favorites={props.favorites}
       movies={props.favorites}
       user={props.user}
       ratings={props.ratings}
       isUserAuthenticated={props.isUserAuthenticated}
       renderSpecificMovie={props.renderSpecificMovie}
       displayUserRatings={props.displayUserRatings}
+      isFavoritePage={true}
     />
   )
 }
