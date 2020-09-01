@@ -4,8 +4,6 @@ import App from './App';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 
-jest.mock('../helpers/apis')
-
 import { movieApi, ratingsApi } from '../helpers/apis';
 
 jest.mock('../helpers/apis')

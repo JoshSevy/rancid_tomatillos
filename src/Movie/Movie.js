@@ -73,7 +73,7 @@ class Movie extends Component {
                 onChange={this.handleChange}
               />
               <output
-                for="rating-input"
+                htmlFor="rating-input"
                 className="rating-output"
               >
                 {this.state.sliderValue} Tomatillos

@@ -5,20 +5,44 @@ import { MemoryRouter } from 'react-router-dom';
 
 import CommentList from './CommentList';
 
-import {} from '../helpers/apis';
-jest.mock('../helpers/apis')
-
 describe('ClassList Component', () => {
 
-  it('should render no comments if no comments exist', {
+  it('should render no comments if no comments exist', () => {
     render(
       <MemoryRouter>
-        <CommentList/>
+        <CommentList comments={[]}/>
       </MemoryRouter>
     )
+
+    const noComments = screen.getByRole('heading', /no comments yet!/i)
+
+    expect(noComments).toBeInTheDocument()
   })
 
   it('should render multiple comments in comment container', async () => {
+    render(
+      <MemoryRouter>
+        <CommentList 
+          comments={[
+            {
+              author: 'Josh',
+              comment: 'crushing the project'
+            },
+            {
+              author: 'Ben',
+              comment: 'crushing the project'
+            }
+          ]}
+        />
+      </MemoryRouter>
+    )
+   
+    const commentOne = screen.getByText(/josh/i);
+    const commentTwo = screen.getByText(/ben/i);
+
+    expect(commentOne).toBeInTheDocument();
+    expect(commentTwo).toBeInTheDocument();
+
 
   })
 })

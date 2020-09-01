@@ -2,7 +2,7 @@ import CommentList from '../CommentList/CommentList'
 
 import './CommentForm.css'
 
-import { postComment } from '../helpers/apis';
+import { postComment, getComments } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -57,7 +57,7 @@ class CommentForm extends Component {
           
         >
           <h2 className="comment-message">How was {this.props.movie.title}?</h2>
-          <label for="title">Comment Title:</label>
+          <label htmlFor="title">Comment Title:</label>
           <input 
             name="commentTitle"
             value={this.state.commentTitle}
@@ -66,7 +66,7 @@ class CommentForm extends Component {
             className="comment-title-input"
             onChange={this.commentFieldOutput}
           />
-          <label for="comment-field">Leave Comment Here:</label>
+          <label htmlFor="comment-field">Leave Comment Here:</label>
           <textarea 
             name="commentSummary" 
             value={this.state.commentSummary}
@@ -101,7 +101,6 @@ class CommentForm extends Component {
         }
         <CommentList 
           comments={this.props.comments} 
-          user={this.state.user}
           movie = {this.props.movie}
         />
       </section>

@@ -128,7 +128,8 @@ class App extends Component {
 
   getMovieComments(id) {
      getComments(id)
-      .then(comments => this.setState(comments))  
+      .then(comments => this.setState(comments)) 
+      .catch(error => console.warn('no comments')) 
   }
 
   render() {

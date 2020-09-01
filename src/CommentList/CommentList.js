@@ -13,7 +13,7 @@ const CommentList = ({comments, movie}) => {
       <section className="comment-container">
       {
         comments.map(comment => {
-        return <Comment comment={comment}/>
+        return <Comment key={comment.id} comment={comment}/>
         })
       }
       </section>
