@@ -3,7 +3,7 @@ import './CardContainer.css';
 
 import React from 'react';
 
-const CardContainer = ({movies, user, renderSpecificMovie, displayUserRatings, ratings, favorites}) => {
+const CardContainer = ({movies, user, renderSpecificMovie, displayUserRatings, ratings, favorites, favoriteOrUnfavoriteMovie}) => {
   return (
     <section
       className="CardContainer"
@@ -18,7 +18,10 @@ const CardContainer = ({movies, user, renderSpecificMovie, displayUserRatings, r
           avgRating={movie.avgRating}
           key={movie.id}
           id={movie.id}
-          isFavorited={favorites.includes(movie) ? true : false}
+          isFavorited={
+            favorites.includes(movie) ? true : false
+          }
+          favoriteOrUnfavoriteMovie={favoriteOrUnfavoriteMovie}
         />
         })
       }

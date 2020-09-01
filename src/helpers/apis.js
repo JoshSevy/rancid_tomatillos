@@ -89,3 +89,15 @@ export const postRatingApi = async (id, rating) => {
       console.log(error);
     }
   }
+
+  export const postFavoriteApi = async (id) => {
+    try {
+      await fetch(favoritesUrl, {
+        method : 'POST',
+        body: JSON.stringify({"id": id}),
+        headers: {'Content-Type': 'application/json'}
+      })
+    } catch(error) {
+      console.log(error);
+    }
+  }

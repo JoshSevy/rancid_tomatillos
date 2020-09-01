@@ -5,10 +5,10 @@ import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Favorites from '../Favorites/Favorites';
 
-import { movieApi, ratingsApi, postRatingApi, deleteRatingApi, favoritesApi } from '../helpers/apis';
+import { movieApi, ratingsApi, postRatingApi, deleteRatingApi, favoritesApi, postFavoriteApi } from '../helpers/apis';
 
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import './App.css';
@@ -30,10 +30,14 @@ class App extends Component {
     this.postUserRating = this.postUserRating.bind(this);
     this.getUserData = this.getUserData.bind(this);
     this.getFavoritesData = this.getFavoritesData.bind(this);
+    this.closeMovieDetail = this.closeMovieDetail.bind(this);
+    this.favoriteOrUnfavoriteMovie = this.favoriteOrUnfavoriteMovie.bind(this);
+    // this.movieValidation = this.movieValidation.bind(this);
   }
 
   componentDidMount() {
     this.getMoviesData();
+    this.getFavoritesData();
   }
 
   componentDidUpdate() {
@@ -41,6 +45,7 @@ class App extends Component {
       const id = this.state.user.id;
       this.getUserRatings(id);
     }
+      this.getFavoritesData();
   }
 
   getUserData(user, status) {
@@ -52,9 +57,11 @@ class App extends Component {
   }
 
   renderSpecificMovie(event) {
-    if(event.target.closest(".Card")) {
+    if(event.target.closest(".Card") && !event.target.classList.contains("favorite-movie-button")) {
       const id = event.target.closest('.Card').id;
       this.getSpecificMovieData(id);
+    } else {
+      return;
     }
   };
 
@@ -135,13 +142,31 @@ class App extends Component {
       }
     )
       .then(movie => {
-        console.log(movie)
         this.setState({selectedMovie: movie})})
       .catch(error => {
         this.setState({selectedMovie: false, error: true})
       })
   }
 
+  closeMovieDetail() {
+    this.setState({selectedMovie: false})
+  }
+
+  favoriteOrUnfavoriteMovie(id) {
+    postFavoriteApi(id)
+      .then(data => {
+        this.setState({favorites: this.state.favorites.filter(favorite => {
+          return favorite === true;
+        })})
+      })
+      .catch(error => console.log(error));
+  }
+
+  // movieValidation() {
+  //   if (this.state.selectedMovie) {
+  //     return true;
+  //   }
+  // }
   // displayUserRatings(id) {
   //   let movieRating;
   //   if (this.state.ratings.length === 0) {
@@ -165,6 +190,7 @@ class App extends Component {
             />
           <Route exact path="/" render={() =>
             <CardContainer
+              favoriteOrUnfavoriteMovie={this.favoriteOrUnfavoriteMovie}
               movies={this.state.movies}
               user={this.state.user}
               ratings={this.state.ratings}
@@ -194,14 +220,28 @@ class App extends Component {
             return (
               this.state.selectedMovie ? (
                 <Movie
+                  favoriteOrUnfavoriteMovie={this.favoriteOrUnfavoriteMovie}
                   movie={this.state.selectedMovie}
                   user={this.state.user}
                   postUserRating={this.postUserRating}
                   ratings={this.state.ratings}
+                  favorites={this.state.favorites}
                 />
               )
               :
-              (<h4>No movie selected. Please return to the homepage.</h4>)
+              (
+                <div>
+                  <h4>No movie selected. Please return to the homepage.</h4>
+                  <Link to="/">
+                    <button
+                      className="back-button"
+                      onClick={this.closeMovieDetail}
+                    >
+                      <span>&#215;</span>
+                    </button>
+                  </Link>
+                </div>
+              )
           )
             }
             }

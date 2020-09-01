@@ -1,6 +1,6 @@
 import './Movie.css';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 
 class Movie extends Component {
@@ -8,11 +8,24 @@ class Movie extends Component {
     super(props)
 
     this.state = {
-      sliderValue: "10"
+      sliderValue: "10",
+      isFavorited: this.props.favorites.includes(this.props.movie) ? true : false
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.submitRating = this.submitRating.bind(this);
+    this.clickFavoriteButton = this.clickFavoriteButton.bind(this);
+  }
+
+  componentDidMount() {
+    if(!this.props.movieValidation) {
+      return (<Redirect to="/" />)
+    }
+  }
+
+  clickFavoriteButton() {
+      this.props.favoriteOrUnfavoriteMovie(this.props.movie.id)
+      this.setState({isFavorited: !this.state.isFavorited})
   }
 
   handleChange(event) {
@@ -50,34 +63,41 @@ class Movie extends Component {
             {this.props.movie.description}
           </p>
           <p>
-            Genres: {this.props.movie.genres} <br />
+            Genres: {this.props.movie.genres.join(", ")} <br />
             Length: {this.props.movie.runtime} Minutes <br />
             Average Rating: {this.props.movie.avgRating} Tomatillos
           </p>
-          {this.props.user &&
-            <form className="submit-rating">
-              Submit new rating: <br />
-              <input
-                type="range"
-                name="rating-input"
-                min="1" max="10"
-                step="1"
-                className="rating-input"
-                onChange={this.handleChange}
-              />
-              <output
-                for="rating-input"
-                className="rating-output"
-              >
-                {this.state.sliderValue} Tomatillos<br />
-              </output>
+          {this.props.user.id &&
+            <div>
               <button
-                className="submit-rating"
-                onClick={this.submitRating}
-              >
-              Submit Rating
+                className="favorite-movie-button"
+                onClick={this.clickFavoriteButton}>
+                {this.state.isFavorited ? "Unfavorite" : "Favorite"}
               </button>
-            </form>
+                <form className="submit-rating">
+                  Submit new rating: <br />
+                  <input
+                    type="range"
+                    name="rating-input"
+                    min="1" max="10"
+                    step="1"
+                    className="rating-input"
+                    onChange={this.handleChange}
+                  />
+                  <output
+                    for="rating-input"
+                    className="rating-output"
+                  >
+                    {this.state.sliderValue} Tomatillos<br />
+                  </output>
+                  <button
+                    className="submit-rating"
+                    onClick={this.submitRating}
+                  >
+                  Submit Rating
+                  </button>
+                </form>
+              </div>
           }
         </article>
         <Link to="/">

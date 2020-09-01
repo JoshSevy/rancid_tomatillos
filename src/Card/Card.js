@@ -11,11 +11,15 @@ function Card(props) {
         <article
           className="Card"
           id={props.id}>
+        {props.user.id &&
           <button
             className="favorite-movie-button"
-            onClick={props.favoriteMovie}>
+            onClick={() => {
+              return props.favoriteOrUnfavoriteMovie(props.id);
+            }}>
             {props.isFavorited ? "Unfavorite" : "Favorite"}
           </button>
+        }
           <img
             src={props.poster}
             alt={props.description}
