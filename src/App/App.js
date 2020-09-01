@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-import { movieApi, ratingsApi, postRatingApi, deleteRatingApi } from '../helpers/apis';
+import { movieApi, ratingsApi, postRatingApi, deleteRatingApi, getComments } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -20,6 +20,7 @@ class App extends Component {
       selectedMovie: false,
       user: {},
       ratings: [],
+      comments: [],
       isUserAuthenticated: false
     };
 
@@ -27,6 +28,7 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
     this.postUserRating = this.postUserRating.bind(this);
     this.getUserData = this.getUserData.bind(this);
+    this.getMovieComments = this.getMovieComments.bind(this)
   }
 
   componentDidMount() {
@@ -52,6 +54,8 @@ class App extends Component {
     if(event.target.closest(".Card")) {
       const id = event.target.closest('.Card').id;
       this.getSpecificMovieData(id);
+      this.getMovieComments(id);
+      
     }
   };
 
@@ -122,6 +126,11 @@ class App extends Component {
     })
   }
 
+  getMovieComments(id) {
+     getComments(id)
+      .then(comments => this.setState(comments))  
+  }
+
   render() {
     return (
         <main className="App">
@@ -162,6 +171,8 @@ class App extends Component {
               postUserRating={this.postUserRating}
               ratings={this.state.ratings}
               isUserAuthenticated={this.state.isUserAuthenticated}
+              comments={this.state.comments}
+              getComments={this.getMovieComments}
             />
             }
           />

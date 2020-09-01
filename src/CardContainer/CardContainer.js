@@ -3,7 +3,7 @@ import './CardContainer.css';
 
 import React from 'react';
 
-const CardContainer = ({movies, user, renderSpecificMovie, displayUserRatings, ratings}) => {
+const CardContainer = ({movies, user, renderSpecificMovie, ratings}) => {
   return (
     <section 
       className="CardContainer" 

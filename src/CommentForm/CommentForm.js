@@ -2,7 +2,7 @@ import CommentList from '../CommentList/CommentList'
 
 import './CommentForm.css'
 
-import {getComments, postComments} from '../helpers/apis';
+import { postComment } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,6 @@ class CommentForm extends Component {
   constructor(props) {
     super(props) 
     this.state={
-      comments: [],
       user: {},
       commentTitle: "",
       commentSummary: ""
@@ -27,12 +26,15 @@ class CommentForm extends Component {
     this.setState({[formData]: formValue });
   }
 
-  getMovieComments = async (movieID) => {
-    getComments(movieID)
-  }
-
-  postMovieComment = async (postData) => {
+  // getMovieComments = () => {
+  //   getComments(this.props.movie.id)
+  //   .then(comments => this.setState(comments))
     
+  // }
+
+  postMovieComment = async (movieID, postData) => {
+    postComment(movieID, postData)
+  
   }
 
   onSubmit(e) {
@@ -40,6 +42,9 @@ class CommentForm extends Component {
     const title = this.state.commentTitle;
     const summary = this.state.commentSummary;
     const userComment = `${title.toUpperCase()} ${summary}`
+    const comment = {comment: userComment, author: this.props.user.name}
+    this.postMovieComment(this.props.movie.id, comment)
+    
 
     console.log(userComment)
   }
@@ -102,8 +107,9 @@ class CommentForm extends Component {
         </article>
         }
         <CommentList 
-          comments={this.state.comments} 
+          comments={this.props.comments} 
           user={this.state.user}
+          movie = {this.props.movie}
         />
       </section>
     )

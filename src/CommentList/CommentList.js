@@ -5,16 +5,19 @@ import './CommentList.css'
 import React from 'react';
 
 
-const CommentList = ({comments, user}) => {
-  if (comments === []) {
-    comments.map(comment => {
-      return (
-        <Comment 
-          comment={comment}
-          user={user}
-        />
-      )
-    })
+
+const CommentList = ({comments, movie}) => {
+  
+  if (comments.length >= 1) {
+    return (
+      <section className="comment-container">
+      {
+        comments.map(comment => {
+        return <Comment comment={comment}/>
+        })
+      }
+      </section>
+    )
   } else {
     return (
       <article className="comment-container">

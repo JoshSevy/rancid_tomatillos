@@ -10,13 +10,14 @@ class Movie extends Component {
     super(props)
 
     this.state = {
-      sliderValue: "10"
+      sliderValue: "10",
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.submitRating = this.submitRating.bind(this);
   }
 
+ 
   handleChange(event) {
     this.setState({ sliderValue: event.target.value })
   }
@@ -90,6 +91,8 @@ class Movie extends Component {
           user={this.props.user}
           movie={this.props.movie}
           isUserAuthenticated={this.props.isUserAuthenticated}
+          comments={this.props.comments}
+          getComments={this.props.getComments}
         />
       </section>
     )
