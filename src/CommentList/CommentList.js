@@ -6,7 +6,7 @@ import React from 'react';
 
 
 
-const CommentList = ({comments, movie}) => {
+const CommentList = ({ comments }) => {
   
   if (comments.length >= 1) {
     return (

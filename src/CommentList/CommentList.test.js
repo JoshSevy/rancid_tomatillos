@@ -19,18 +19,20 @@ describe('ClassList Component', () => {
     expect(noComments).toBeInTheDocument()
   })
 
-  it('should render multiple comments in comment container', async () => {
+  it('should render multiple comments in comment container', () => {
     render(
       <MemoryRouter>
         <CommentList 
           comments={[
             {
               author: 'Josh',
-              comment: 'crushing the project'
+              comment: 'crushing the project',
+              id: 2
             },
             {
               author: 'Ben',
-              comment: 'crushing the project'
+              comment: 'crushing the project',
+              id: 1
             }
           ]}
         />

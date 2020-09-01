@@ -11,6 +11,7 @@ describe('Movie Component', () => {
     const {getByRole} = render (
       <MemoryRouter>
         <Movie
+          comments={[]}
           movie={[{
             title: "Inception",
             description: "Good Movie",
@@ -24,16 +25,36 @@ describe('Movie Component', () => {
       )
 
 
-    const button = screen.getByRole('button');
+    const button = getByRole('button');
     const movieLength = screen.getByText(/length:/i);
     const ratings = screen.getByText(/average rating/i)
-    const description = getByRole("heading", "Good Movie");
-    const genres = getByRole("heading", ["action", "drama"]);
 
-    expect(description).toBeInTheDocument();
-    expect(genres).toBeInTheDocument();
     expect(movieLength).toBeInTheDocument();
     expect(button).toBeInTheDocument();
     expect(ratings).toBeInTheDocument();
+  })
+
+  it('should render comment component on movie page load', () => {
+    render(
+      <MemoryRouter>
+        <Movie
+          comments={[]}
+          movie={[
+            {
+              title: "Inception",
+              description: "Good Movie",
+              avgRating: "9.9",
+              id: 27,
+              movieLength: 97,
+              genres: ["action", "drama"],
+            },
+          ]}
+        />
+      </MemoryRouter>
+    );
+
+    const noCommentMessage = screen.getByText(/no comments yet/i)
+
+    expect(noCommentMessage).toBeInTheDocument()
   })
 })
