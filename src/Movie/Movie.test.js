@@ -19,6 +19,15 @@ describe('Movie Component', () => {
             movieLength: 97,
             genres: ['action', 'drama']
           }]}
+          ratings={[]}
+          favorites={[{
+            title: "Inception",
+            description: "Good Movie",
+            avgRating: "9.9",
+            id: 27,
+            movieLength: 97,
+            genres: ['action', 'drama']
+          }]}
         />
       </MemoryRouter>
       )

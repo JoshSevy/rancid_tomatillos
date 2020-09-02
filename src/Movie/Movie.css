@@ -34,3 +34,11 @@
   height: 20px;
 }
 
+#favorite-movie-button {
+  width: 80px;
+}
+
+.back-button {
+  position: absolute;
+  top: 120px;
+}

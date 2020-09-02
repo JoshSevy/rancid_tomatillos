@@ -76,15 +76,11 @@ class Movie extends Component {
             Length: {this.props.movie.runtime} Minutes <br />
             Average Rating: {this.props.movie.avgRating} Tomatillos
           </p>
-          {userRating &&
-            <section>
-              <p>{`Your Rating: ${userRating.rating}`}</p>
-            </section>
-          }
           {this.props.user.id &&
             <div>
               <button
                 className="favorite-movie-button"
+                id="favorite-movie-button"
                 onClick={this.clickFavoriteButton}>
                 {this.state.isFavorited ? "Unfavorite" : "Favorite"}
               </button>
@@ -112,6 +108,11 @@ class Movie extends Component {
                   </button>
                 </form>
               </div>
+          }
+          {userRating &&
+            <section>
+              <p>{`Your Rating: ${userRating.rating}`}</p>
+            </section>
           }
         </article>
         <Link to="/">

@@ -40,3 +40,8 @@ html {
   grid-template-columns: 5% 1fr 5%;
   background-color: darkred;
 }
+
+button {
+  color: antiquewhite;
+  background-color: #273550
+}

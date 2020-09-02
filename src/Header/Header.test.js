@@ -11,7 +11,7 @@ describe('Header Component', () => {
   it('should have correct content when user not logged in rendered', () => {
     const { getByRole } = render(
       <MemoryRouter>
-        <Header 
+        <Header
           isUserAuthenticated={false}
         />
       </MemoryRouter>
@@ -37,6 +37,7 @@ describe('Header Component', () => {
     )
     const headerText = getByRole("heading", { name: /welcome ben !/i });
     const buttonText = getByRole("link", { name: "LogOut" });
+    const favoriteButtonText = getByRole("link", { name: "My Favorites"})
     expect(headerText).toBeInTheDocument();
     expect(buttonText).toBeInTheDocument();
   })
@@ -56,10 +57,10 @@ describe('Header Component', () => {
   })
 //may need to be tested in app to have abilitiy to switch pages
   it("navigates to login page when you click the login navlink", async () => {
-    
+
     render(
       <MemoryRouter initialEntries={['/']}>
-        <Header 
+        <Header
           isUserAuthenticated={false}
         />
       </MemoryRouter>

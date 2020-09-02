@@ -32,7 +32,6 @@ class App extends Component {
     this.getFavoritesData = this.getFavoritesData.bind(this);
     this.closeMovieDetail = this.closeMovieDetail.bind(this);
     this.favoriteOrUnfavoriteMovie = this.favoriteOrUnfavoriteMovie.bind(this);
-    // this.movieValidation = this.movieValidation.bind(this);
   }
 
   componentDidMount() {
@@ -153,27 +152,9 @@ class App extends Component {
   }
 
   favoriteOrUnfavoriteMovie(id) {
-    postFavoriteApi(id)
-    this.getFavoritesData()
+    postFavoriteApi(id);
+    this.getFavoritesData();
   }
-
-  // movieValidation() {
-  //   if (this.state.selectedMovie) {
-  //     return true;
-  //   }
-  // }
-  // displayUserRatings(id) {
-  //   let movieRating;
-  //   if (this.state.ratings.length === 0) {
-  //     movieRating = 'none';
-  //   } else {
-  //     const movie = this.state.ratings.find(rating => {
-  //       return id === rating.movieId;
-  //     })
-  //     movieRating = movie ? movie.rating : "Rate Me";
-  //   }
-  //   return movieRating;
-  // }
 
   render() {
     return (
@@ -272,7 +253,16 @@ export default App;
 App.propTypes = {
   movies: PropTypes.array,
   user: PropTypes.object,
+  favorites: PropTypes.array,
   isUserAuthenticated: PropTypes.bool,
   ratings: PropTypes.array,
-  selectedMovie: PropTypes.bool
+  logOut: PropTypes.func,
+  selectedMovie: PropTypes.bool,
+  closeMovieDetail:PropTypes.func,
+  renderSpecificMovie: PropTypes.func,
+  displayUserRatings: PropTypes.func,
+  postUserRating: PropTypes.func,
+  favoriteOrUnfavoriteMovie: PropTypes.func,
+  getUserData: PropTypes.func,
+  getFavoritesData: PropTypes.func
 }

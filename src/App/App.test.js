@@ -6,13 +6,13 @@ import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('../helpers/apis')
 
-import { movieApi, ratingsApi } from '../helpers/apis';
+import { movieApi, ratingsApi, favoritesApi } from '../helpers/apis';
 
 jest.mock('../helpers/apis')
 
 describe('App Component', () => {
   beforeEach(() => {
-    
+
     movieApi.mockResolvedValue({
       movies: [{
         id: 524047,
@@ -23,9 +23,12 @@ describe('App Component', () => {
         release_date: "2020-07-29"
       }]
     })
+    favoritesApi.mockResolvedValue({
+      favorites: [524047,486589]
+    })
   })
   it('should render App correctly', () => {
-    
+
     render(
       <MemoryRouter initialEntries={['/']}>
         <App />
@@ -34,7 +37,7 @@ describe('App Component', () => {
 
     const headerText = screen.getByText(/Rancid Tomatillos/i);
     const headerLoginText = screen.getByRole("heading", /log in/i)
-    
+
     expect(headerText).toBeInTheDocument();
     expect(headerLoginText).toBeInTheDocument();
   })
@@ -68,7 +71,7 @@ describe('App Component', () => {
   it('should render login page at /login path', async () => {
     render(
       <MemoryRouter initialEntries={['/login']}>
-        <App 
+        <App
           isUserAuthenticated={true}
           user={{name: 'Sean', id: 2, email: 'sean@gotcha.com'}}
         />
@@ -91,6 +94,7 @@ describe('App Component', () => {
   })
 })
 
+
 // const mockFetch = async (data) => {
 //   return jest.fn().mockImplementation(() =>
 //     Promise.resolve({
@@ -99,7 +103,3 @@ describe('App Component', () => {
 //     })
 //   );
 // }
-
-
-
-

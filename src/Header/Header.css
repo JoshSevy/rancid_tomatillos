@@ -9,18 +9,18 @@
   display: inline-block;
   margin-top: 15px;
   text-align: center;
-  color: #ffffff;
+  color: antiquewhite;
   text-shadow: 5px 5px 6px black;
 }
 
 .login-button {
   position: absolute;
   right: 10px;
-  top: 30px;
+  top: 10px;
   width: 4rem;
-  background-color: antiquewhite;
-  color: black;
-  border: 1px solid black;
+  background-color: #273550;
+  color: antiquewhite;
+  border: none;
   border-radius: 30px;
   text-decoration: none;
 }
@@ -28,11 +28,11 @@
 .favorites-button {
   position: absolute;
   left: 10px;
-  top: 30px;
+  top: 10px;
   width: 5rem;
-  background-color: antiquewhite;
-  color: black;
-  border: 1px solid black;
+  background-color: #273550;
+  color: antiquewhite;
+  border: none;
   border-radius: 40px;
   text-decoration: none;
 }
