@@ -1,7 +1,7 @@
 import Header from './Header';
 import React from 'react';
-import { MemoryRouter, Link } from 'react-router-dom';
-import {render, screen, fireEvent} from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom';
+import { render, screen, fireEvent } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import '@testing-library/jest-dom';
 
@@ -54,7 +54,7 @@ describe('Header Component', () => {
     fireEvent.click(button);
 
   })
-//may need to be tested in app to have abilitiy to switch pages
+
   it("navigates to login page when you click the login navlink", async () => {
     
     render(

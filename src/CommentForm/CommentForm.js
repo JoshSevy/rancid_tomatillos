@@ -35,7 +35,7 @@ class CommentForm extends Component {
     e.preventDefault();
     const title = this.state.commentTitle;
     const summary = this.state.commentSummary;
-    const userComment = `${title.toUpperCase()}---${summary}`
+    const userComment = `${title.toUpperCase()} ${summary}`
     const comment = {comment: userComment, author: this.props.user.name}
     this.postMovieComment(this.props.movie.id, comment) 
   }
@@ -68,6 +68,7 @@ class CommentForm extends Component {
             placeholder="input comment here" 
             className="comment-summary-input"
             onChange={this.commentFieldOutput}
+            required
           />
           <article className="button-container">
             <button 

@@ -96,10 +96,9 @@ export const postComment = (movieID, comment) => {
     }
   }
 
-  try {
-    fetch(`http://localhost:3001/api/v1/movies/${movieID}/comments`, postStructure)
-  } catch(error) {
-    return new Error('something seems to have gone wrong')
-  }
+    return fetch(`http://localhost:3001/api/v1/movies/${movieID}/comments`, postStructure)
+    .catch(error => new Error('Make sure all fields are completed'))
+    
+
 }
 
