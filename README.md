@@ -6,18 +6,12 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/JoshSevy/rancid_tomatillos">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">Rancid Tomatillos</h3>
 
   <p align="center">
     <br />
     <a href="https://github.com/JoshSevy/rancid_tomatillos"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/JoshSevy/rancid_tomatillos">View Demo</a>
     ·
     <a href="https://github.com/JoshSevy/rancid_tomatillos/issues">Report Bug</a>
     ·
@@ -32,7 +26,6 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
-* [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
@@ -41,8 +34,12 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
+A Rotten Tomatoes Clone built using React. Mostly a paired project with the final iterations being done solo in a divide in conquer format. We utilized an Api to get all the movie and user data as well as a local server to store and retrieve favorited movies as well as comments for the movies. The time frame for this project was about 16 days start to finish. This was our initial dive into React, react-router, and testing with jest. Have fun navigating our app and we hope you enjoy it. Please feel free to reach out to us anytime. Thanks. Ben and Josh
 <!-- Project screen shots here -->
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![product-screenshot](https://media.giphy.com/media/h3csoSbrzUKRE4NnAx/giphy.gif)
+![product-screenshot](https://media.giphy.com/media/f4IxPKxhZAUYnkutRI/giphy.gif)
+
 
 Rotten Tomatoes Clone
 
@@ -50,9 +47,7 @@ Rotten Tomatoes Clone
 
 * [JavaScript](https://Javascript.com)
 * [React](https://reactjs.org)
-* [Sass](https://sass-lang.com)
-
-
+* [Jest](https://jestjs.io/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -82,14 +77,6 @@ npm install
 npm start
 ```
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -97,16 +84,10 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 See the [open issues](https://github.com/JoshSevy/rancid_tomatillos/issues) for a list of proposed features (and known issues).
 
 
-
-
 <!-- CONTACT -->
 ## Contact
 
 Joshua Sevy - [@your_twitter](https://twitter.com/joshsevy) - joshuasevy@outlook.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
