@@ -1,9 +1,9 @@
 import './Movie.css';
-
 import CommentForm from '../CommentForm/CommentForm'
 
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 
 class Movie extends Component {
   constructor(props) {
@@ -100,3 +100,11 @@ class Movie extends Component {
 }
 
 export default Movie;
+
+Movie.propTypes = {
+  movies: PropTypes.array,
+  user: PropTypes.object,
+  isUserAuthenticated: PropTypes.bool,
+  ratings: PropTypes.array,
+  sliderValue: PropTypes.number,
+};

@@ -1,9 +1,8 @@
 import Comment from '../Comment/Comment'
-
 import './CommentList.css'
 
 import React from 'react';
-
+import Proptypes from 'prop-types';
 
 
 const CommentList = ({ comments }) => {
@@ -27,3 +26,7 @@ const CommentList = ({ comments }) => {
   }
 }
 export default CommentList;
+
+CommentList.propTypes = {
+  comments: Proptypes.array
+};

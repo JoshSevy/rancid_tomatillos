@@ -1,6 +1,8 @@
-import React from 'react';
+import "./Comment.css";
 
-import './Comment.css'
+import React from 'react';
+import Proptypes from 'prop-types';
+
 
 const Comment = (props) => {
   return (
@@ -14,7 +16,8 @@ const Comment = (props) => {
   )
 }
 
-
-
-
 export default Comment;
+
+Comment.propTypes = {
+  comment: Proptypes.object
+}

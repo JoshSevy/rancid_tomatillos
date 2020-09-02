@@ -194,5 +194,5 @@ App.propTypes = {
   user: PropTypes.object,
   isUserAuthenticated: PropTypes.bool,
   ratings: PropTypes.array,
-  selectedMovie: PropTypes.bool
+  comments: PropTypes.array
 }

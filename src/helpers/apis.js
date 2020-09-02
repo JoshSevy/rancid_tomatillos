@@ -75,7 +75,7 @@ export const postRatingApi = async (id, rating) => {
       }
     )
   } catch(error) {
-    console.log(error);
+    return error;
   }
 }
 
@@ -83,6 +83,7 @@ export const postRatingApi = async (id, rating) => {
 export const getComments = (movieID) => {
     return fetch(`http://localhost:3001/api/v1/movies/${movieID}/comments`)
       .then(comments => comments.json())
+      .catch(error => new Error('server is currently down'))
       
 }
 
@@ -98,7 +99,7 @@ export const postComment = (movieID, comment) => {
   try {
     fetch(`http://localhost:3001/api/v1/movies/${movieID}/comments`, postStructure)
   } catch(error) {
-    console.log(error)
+    return new Error('something seems to have gone wrong')
   }
 }
 

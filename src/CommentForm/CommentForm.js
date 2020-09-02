@@ -1,18 +1,16 @@
 import CommentList from '../CommentList/CommentList'
-
 import './CommentForm.css'
 
-import { postComment, getComments } from '../helpers/apis';
+import { postComment } from '../helpers/apis';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import PropTypes from 'prop-types';
 
 class CommentForm extends Component {
   constructor(props) {
     super(props) 
     this.state={
-      user: {},
       commentTitle: "",
       commentSummary: ""
     }
@@ -52,10 +50,7 @@ class CommentForm extends Component {
       <section className="comment-form-container">
       {
         (this.props.isUserAuthenticated) ? 
-        <form 
-          className="comment-form"
-          
-        >
+        <form className="comment-form">
           <h2 className="comment-message">How was {this.props.movie.title}?</h2>
           <label htmlFor="title">Comment Title:</label>
           <input 
@@ -109,3 +104,10 @@ class CommentForm extends Component {
 }
 
 export default CommentForm; 
+
+CommentForm.propTypes = {
+  user: PropTypes.object,
+  isUserAuthenticated: PropTypes.bool,
+  commentTitle: PropTypes.string,
+  commentSummary: PropTypes.string
+};

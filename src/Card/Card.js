@@ -1,6 +1,7 @@
 import './Card.css';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function Card(props) {
@@ -30,3 +31,7 @@ function Card(props) {
 }
 
 export default Card;
+
+Card.propTypes = {
+  ratings: PropTypes.array,
+}
